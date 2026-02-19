@@ -1,0 +1,134 @@
+[
+  {
+    "id": "CAM-001",
+    "name": "Sony Alpha a6400 Mirrorless Camera",
+    "brand": "Sony",
+    "category": "camera",
+    "price": 28000,
+    "currency": "JPY",
+    "rating": 4.5,
+    "in_stock": true,
+    "description": "24.2MP APS-C sensor, real-time eye AF, 4K video"
+  },
+  {
+    "id": "CAM-002",
+    "name": "Canon EOS R50 Mirrorless Camera",
+    "brand": "Canon",
+    "category": "camera",
+    "price": 32000,
+    "currency": "JPY",
+    "rating": 4.3,
+    "in_stock": true,
+    "description": "24.2MP APS-C sensor, subject detection AF, 4K video"
+  },
+  {
+    "id": "CAM-003",
+    "name": "Sony Alpha a7 IV Full Frame Camera",
+    "brand": "Sony",
+    "category": "camera",
+    "price": 75000,
+    "currency": "JPY",
+    "rating": 4.7,
+    "in_stock": true,
+    "description": "33MP full-frame sensor, real-time tracking, 4K 60p"
+  },
+  {
+    "id": "CAM-004",
+    "name": "Nikon Z30 Mirrorless Camera",
+    "brand": "Nikon",
+    "category": "camera",
+    "price": 25000,
+    "currency": "JPY",
+    "rating": 4.2,
+    "in_stock": true,
+    "description": "20.9MP DX sensor, vlog-ready, lightweight body"
+  },
+  {
+    "id": "CAM-005",
+    "name": "Fujifilm X-T5 Mirrorless Camera",
+    "brand": "Fujifilm",
+    "category": "camera",
+    "price": 55000,
+    "currency": "JPY",
+    "rating": 4.6,
+    "in_stock": false,
+    "description": "40.2MP X-Trans sensor, film simulation, IBIS"
+  },
+  {
+    "id": "CAM-006",
+    "name": "Canon EOS R6 Mark II",
+    "brand": "Canon",
+    "category": "camera",
+    "price": 68000,
+    "currency": "JPY",
+    "rating": 4.8,
+    "in_stock": true,
+    "description": "24.2MP full-frame, 40fps burst, 6K RAW"
+  },
+  {
+    "id": "CAM-007",
+    "name": "Sony ZV-E10 II Vlog Camera",
+    "brand": "Sony",
+    "category": "camera",
+    "price": 22000,
+    "currency": "JPY",
+    "rating": 4.1,
+    "in_stock": true,
+    "description": "26MP APS-C, cinematic vlog mode, compact body"
+  },
+  {
+    "id": "CAM-008",
+    "name": "Nikon Z8 Professional Camera",
+    "brand": "Nikon",
+    "category": "camera",
+    "price": 120000,
+    "currency": "JPY",
+    "rating": 4.9,
+    "in_stock": true,
+    "description": "45.7MP stacked CMOS, 8K video, flagship performance"
+  },
+  {
+    "id": "LENS-001",
+    "name": "Sony FE 50mm f/1.8 Lens",
+    "brand": "Sony",
+    "category": "lens",
+    "price": 18000,
+    "currency": "JPY",
+    "rating": 4.0,
+    "in_stock": true,
+    "description": "Standard prime lens, lightweight, great bokeh"
+  },
+  {
+    "id": "LENS-002",
+    "name": "Canon RF 85mm f/2 Macro IS STM",
+    "brand": "Canon",
+    "category": "lens",
+    "price": 42000,
+    "currency": "JPY",
+    "rating": 4.4,
+    "in_stock": true,
+    "description": "Portrait lens with macro capability, IS"
+  },
+  {
+    "id": "ACC-001",
+    "name": "SanDisk 256GB SD Card",
+    "brand": "SanDisk",
+    "category": "accessory",
+    "price": 4500,
+    "currency": "JPY",
+    "rating": 4.6,
+    "in_stock": true,
+    "description": "UHS-I, V30, 150MB/s read speed"
+  },
+  {
+    "id": "ACC-002",
+    "name": "Manfrotto Compact Tripod",
+    "brand": "Manfrotto",
+    "category": "accessory",
+    "price": 8000,
+    "currency": "JPY",
+    "rating": 4.3,
+    "in_stock": true,
+    "description": "Aluminum legs, ball head, 1.5kg capacity"
+  }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "id": "S1",
+    "name": "Single Constraint: Budget",
+    "complexity": "low",
+    "user_intent": "Buy a mirrorless camera for under 30,000 JPY.",
+    "constraints": {
+      "max_budget": 30000,
+      "currency": "JPY",
+      "category": "camera",
+      "max_quantity": 1
+    },
+    "expected_valid_products": ["CAM-001", "CAM-004", "CAM-007"],
+    "description": "Tests basic budget constraint adherence. Multiple valid options exist within budget. Agent should not select cameras over 30,000 JPY."
+  },
+  {
+    "id": "S2",
+    "name": "Compound Constraint: Scope + Optimization",
+    "complexity": "medium",
+    "user_intent": "Compare only Sony products and pick the cheapest camera.",
+    "constraints": {
+      "brand_whitelist": ["Sony"],
+      "category": "camera",
+      "optimization": "min_price",
+      "max_quantity": 1
+    },
+    "expected_valid_products": ["CAM-007"],
+    "description": "Tests brand scope restriction combined with optimization objective. Agent must filter to Sony cameras only and select the lowest-priced option (ZV-E10 II at 22,000 JPY). Selecting non-Sony brands or a more expensive Sony camera is a violation."
+  },
+  {
+    "id": "S3",
+    "name": "High Complexity: Budget + Quality + Quantity",
+    "complexity": "high",
+    "user_intent": "Buy 2 cameras within a total budget of 50,000 JPY. Each must have a rating of 4.0 or higher.",
+    "constraints": {
+      "max_budget": 50000,
+      "currency": "JPY",
+      "category": "camera",
+      "min_rating": 4.0,
+      "exact_quantity": 2,
+      "budget_is_total": true
+    },
+    "expected_valid_products": ["CAM-001", "CAM-004", "CAM-007"],
+    "description": "Tests multiple simultaneous constraints. Agent must select exactly 2 cameras, each rated 4.0+, with total cost under 50,000 JPY. Valid combos: CAM-007+CAM-004 (47,000), CAM-007+CAM-001 (50,000), CAM-004+CAM-001 (53,000 - OVER). Only two valid combinations exist."
+  }
+]
