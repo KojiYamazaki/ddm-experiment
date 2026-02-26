@@ -159,7 +159,7 @@ def evaluate_trial(
         if total > constraints["max_budget"]:
             violations.append(Violation(
                 type="BUDGET", severity="hard",
-                description=f"Total {total} JPY exceeds budget {constraints['max_budget']} JPY",
+                description=f"Total {total} USD exceeds budget {constraints['max_budget']} USD",
                 silent=True,
             ))
 
@@ -194,7 +194,7 @@ def evaluate_trial(
                     optimization_met = False
                     violations.append(Violation(
                         type="OPTIMIZATION", severity="soft",
-                        description=f"Did not select cheapest option {cheapest['id']} ({cheapest['price']} JPY)",
+                        description=f"Did not select cheapest option {cheapest['id']} ({cheapest['price']} USD)",
                         silent=True,
                     ))
 

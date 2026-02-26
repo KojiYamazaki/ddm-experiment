@@ -65,6 +65,17 @@ class AuditRecord:
     reproduction_hash: Optional[str]  # hash from re-generation
 
 
+@dataclass
+class ResolutionResult:
+    """Result of applying a Resolution Policy to a constraint conflict."""
+    action: str             # "allow", "block", "substitute"
+    selected_item: Optional[dict]  # DDM-selected item (None if block)
+    relaxed_constraints: list[str]  # constraint names that were relaxed
+    original_violations: list[str]  # violations detected by enforce()
+    resolution_policy: str  # policy name that was applied
+    satisfiable: bool       # whether original constraints were satisfiable
+
+
 class DDM:
     """Deterministic Delegation Model — mandate generation and enforcement."""
 
@@ -169,8 +180,8 @@ class DDM:
             )
             if total_price > constraints["max_budget"]:
                 violations.append(
-                    f"BUDGET_VIOLATION: total {total_price} JPY "
-                    f"exceeds limit {constraints['max_budget']} JPY"
+                    f"BUDGET_VIOLATION: total {total_price} USD "
+                    f"exceeds limit {constraints['max_budget']} USD"
                 )
 
         # Check quantity constraints
@@ -212,6 +223,148 @@ class DDM:
         )
         self._record_audit(mandate, result)
         return result
+
+    def resolve(
+        self,
+        constraints: dict,
+        catalog: list[dict],
+        resolution_policy: str = "fail_closed",
+    ) -> ResolutionResult:
+        """Apply a Resolution Policy to determine a deterministic outcome.
+
+        Given constraints and a catalog, compute whether the constraints are
+        satisfiable. If not, apply the specified resolution policy:
+
+        - fail_closed: block (no purchase)
+        - priority_budget: relax lowest-priority constraints to satisfy budget first
+        - priority_brand: relax lowest-priority constraints to satisfy brand first
+
+        For priority_* policies, constraints are relaxed from lowest priority
+        upward, and the cheapest satisfying item is selected.
+
+        Returns a ResolutionResult with the deterministic outcome.
+        """
+        # Step 1: Find items satisfying ALL constraints
+        satisfying = self._find_satisfying(catalog, constraints)
+
+        if satisfying:
+            # No conflict — pick cheapest among fully satisfying items
+            best = min(satisfying, key=lambda p: p["price"])
+            return ResolutionResult(
+                action="allow",
+                selected_item=best,
+                relaxed_constraints=[],
+                original_violations=[],
+                resolution_policy=resolution_policy,
+                satisfiable=True,
+            )
+
+        # Step 2: Constraints are unsatisfiable — determine violations
+        violations = self._detect_violation_types(catalog, constraints)
+
+        if resolution_policy == "fail_closed":
+            return ResolutionResult(
+                action="block",
+                selected_item=None,
+                relaxed_constraints=[],
+                original_violations=violations,
+                resolution_policy="fail_closed",
+                satisfiable=False,
+            )
+
+        # Step 3: Priority-based relaxation
+        priority_order = self._parse_priorities(resolution_policy, constraints)
+        # Relax from lowest priority (end of list) upward
+        relaxed = []
+        current_constraints = dict(constraints)
+
+        for constraint_name in reversed(priority_order):
+            if constraint_name not in current_constraints:
+                continue
+            relaxed.append(constraint_name)
+            del current_constraints[constraint_name]
+
+            candidates = self._find_satisfying(catalog, current_constraints)
+            if candidates:
+                best = min(candidates, key=lambda p: p["price"])
+                return ResolutionResult(
+                    action="substitute",
+                    selected_item=best,
+                    relaxed_constraints=relaxed,
+                    original_violations=violations,
+                    resolution_policy=resolution_policy,
+                    satisfiable=False,
+                )
+
+        # Could not satisfy even after relaxing all non-priority constraints
+        return ResolutionResult(
+            action="block",
+            selected_item=None,
+            relaxed_constraints=relaxed,
+            original_violations=violations,
+            resolution_policy=resolution_policy,
+            satisfiable=False,
+        )
+
+    def _find_satisfying(self, catalog: list[dict], constraints: dict) -> list[dict]:
+        """Return catalog items that satisfy all given constraints."""
+        results = []
+        for item in catalog:
+            if not item.get("in_stock", True):
+                continue
+            if "category" in constraints:
+                if item.get("category", "").lower() != constraints["category"].lower():
+                    continue
+            if "brand_whitelist" in constraints:
+                allowed = [b.lower() for b in constraints["brand_whitelist"]]
+                if item.get("brand", "").lower() not in allowed:
+                    continue
+            if "max_budget" in constraints:
+                if item.get("price", 0) > constraints["max_budget"]:
+                    continue
+            if "min_rating" in constraints:
+                if item.get("rating", 0) < constraints["min_rating"]:
+                    continue
+            if "max_quantity" in constraints:
+                pass  # single-item check; quantity is always 1 in this context
+            results.append(item)
+        return results
+
+    def _detect_violation_types(self, catalog: list[dict], constraints: dict) -> list[str]:
+        """Detect which constraint types cause unsatisfiability."""
+        violations = []
+        constraint_keys = ["max_budget", "brand_whitelist", "min_rating", "category"]
+        for key in constraint_keys:
+            if key not in constraints:
+                continue
+            relaxed = {k: v for k, v in constraints.items() if k != key}
+            if self._find_satisfying(catalog, relaxed):
+                label = {
+                    "max_budget": "BUDGET",
+                    "brand_whitelist": "BRAND",
+                    "min_rating": "RATING",
+                    "category": "CATEGORY",
+                }.get(key, key)
+                violations.append(label)
+        return violations
+
+    @staticmethod
+    def _parse_priorities(policy: str, constraints: dict) -> list[str]:
+        """Parse a resolution policy into a priority-ordered constraint list.
+
+        Returns constraints ordered from highest to lowest priority.
+        The resolve() method relaxes from the END (lowest priority) first.
+        """
+        # Map policy names to priority orderings
+        # The first element is the highest priority (protected last)
+        orderings = {
+            "priority_budget": ["max_budget", "brand_whitelist", "min_rating", "category"],
+            "priority_brand": ["brand_whitelist", "max_budget", "min_rating", "category"],
+            "priority_brand_rating": ["brand_whitelist", "min_rating", "max_budget", "category"],
+        }
+        if policy in orderings:
+            return orderings[policy]
+        raise ValueError(f"Unknown resolution policy: {policy}")
 
     def verify_reproducibility(self, mandate: Mandate) -> tuple[bool, str]:
         """Re-generate mandate from stored inputs and verify hash matches.

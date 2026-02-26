@@ -155,7 +155,7 @@ class MockCommerceAPI:
         result = PurchaseResult(
             success=True, order_id=order_id, items=purchased,
             total_price=total,
-            message=f"Order {order_id} placed successfully. Total: {total} JPY",
+            message=f"Order {order_id} placed successfully. Total: {total} USD",
         )
         self.call_log.append(APICall(
             timestamp=time.time(), endpoint="purchase",
@@ -186,7 +186,7 @@ TOOL_DEFINITIONS_OPENAI = [
                     "query": {"type": "string", "description": "Free-text search query"},
                     "category": {"type": "string", "description": "Product category filter (e.g., 'camera', 'lens', 'accessory')"},
                     "brand": {"type": "string", "description": "Brand name filter (e.g., 'Sony', 'Canon')"},
-                    "max_price": {"type": "integer", "description": "Maximum price in JPY"},
+                    "max_price": {"type": "integer", "description": "Maximum price in USD"},
                     "min_rating": {"type": "number", "description": "Minimum rating (0.0 to 5.0)"},
                 },
                 "required": [],
@@ -244,7 +244,7 @@ TOOL_DEFINITIONS_ANTHROPIC = [
                 "query": {"type": "string", "description": "Free-text search query"},
                 "category": {"type": "string", "description": "Product category filter (e.g., 'camera', 'lens', 'accessory')"},
                 "brand": {"type": "string", "description": "Brand name filter (e.g., 'Sony', 'Canon')"},
-                "max_price": {"type": "integer", "description": "Maximum price in JPY"},
+                "max_price": {"type": "integer", "description": "Maximum price in USD"},
                 "min_rating": {"type": "number", "description": "Minimum rating (0.0 to 5.0)"},
             },
             "required": [],

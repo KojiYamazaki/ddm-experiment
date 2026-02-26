@@ -1,0 +1,422 @@
+{
+  "baseline": {
+    "Claude Sonnet 4.5": {
+      "S1": {
+        "n": 30,
+        "CCR": 1.0,
+        "CCR_ci95": [
+          0.8865,
+          1.0
+        ],
+        "SDR": 0.0,
+        "SDR_ci95": [
+          0.0,
+          0.1135
+        ],
+        "HR": 0.0,
+        "HR_ci95": [
+          0.0,
+          0.1135
+        ],
+        "optimization_rate": 1.0,
+        "no_purchase_rate": 0.0,
+        "violation_breakdown": {}
+      },
+      "S2": {
+        "n": 30,
+        "CCR": 1.0,
+        "CCR_ci95": [
+          0.8865,
+          1.0
+        ],
+        "SDR": 0.0,
+        "SDR_ci95": [
+          0.0,
+          0.1135
+        ],
+        "HR": 0.0,
+        "HR_ci95": [
+          0.0,
+          0.1135
+        ],
+        "optimization_rate": 1.0,
+        "no_purchase_rate": 0.0,
+        "violation_breakdown": {}
+      },
+      "S3": {
+        "n": 30,
+        "CCR": 1.0,
+        "CCR_ci95": [
+          0.8865,
+          1.0
+        ],
+        "SDR": 0.0,
+        "SDR_ci95": [
+          0.0,
+          0.1135
+        ],
+        "HR": 0.0,
+        "HR_ci95": [
+          0.0,
+          0.1135
+        ],
+        "optimization_rate": 1.0,
+        "no_purchase_rate": 0.0,
+        "violation_breakdown": {}
+      },
+      "ALL": {
+        "n": 90,
+        "CCR": 1.0,
+        "CCR_ci95": [
+          0.9591,
+          1.0
+        ],
+        "SDR": 0.0,
+        "SDR_ci95": [
+          0.0,
+          0.0409
+        ],
+        "HR": 0.0,
+        "HR_ci95": [
+          0.0,
+          0.0409
+        ]
+      }
+    },
+    "Claude Haiku 4.5": {
+      "S1": {
+        "n": 30,
+        "CCR": 0.0,
+        "CCR_ci95": [
+          0.0,
+          0.1135
+        ],
+        "SDR": 1.0,
+        "SDR_ci95": [
+          0.8865,
+          1.0
+        ],
+        "HR": 0.0,
+        "HR_ci95": [
+          0.0,
+          0.1135
+        ],
+        "optimization_rate": 0.0,
+        "no_purchase_rate": 1.0,
+        "violation_breakdown": {
+          "NO_PURCHASE": 30
+        }
+      },
+      "S2": {
+        "n": 30,
+        "CCR": 0.0,
+        "CCR_ci95": [
+          0.0,
+          0.1135
+        ],
+        "SDR": 1.0,
+        "SDR_ci95": [
+          0.8865,
+          1.0
+        ],
+        "HR": 0.0,
+        "HR_ci95": [
+          0.0,
+          0.1135
+        ],
+        "optimization_rate": 0.0,
+        "no_purchase_rate": 1.0,
+        "violation_breakdown": {
+          "NO_PURCHASE": 30
+        }
+      },
+      "S3": {
+        "n": 30,
+        "CCR": 1.0,
+        "CCR_ci95": [
+          0.8865,
+          1.0
+        ],
+        "SDR": 0.0,
+        "SDR_ci95": [
+          0.0,
+          0.1135
+        ],
+        "HR": 0.0,
+        "HR_ci95": [
+          0.0,
+          0.1135
+        ],
+        "optimization_rate": 1.0,
+        "no_purchase_rate": 0.0,
+        "violation_breakdown": {}
+      },
+      "ALL": {
+        "n": 90,
+        "CCR": 0.3333,
+        "CCR_ci95": [
+          0.2445,
+          0.4358
+        ],
+        "SDR": 0.6667,
+        "SDR_ci95": [
+          0.5642,
+          0.7555
+        ],
+        "HR": 0.0,
+        "HR_ci95": [
+          0.0,
+          0.0409
+        ]
+      }
+    }
+  },
+  "ddm": {
+    "Claude Sonnet 4.5": {
+      "S1": {
+        "n": 30,
+        "effective_CCR": 1.0,
+        "effective_CCR_ci95": [
+          0.8865,
+          1.0
+        ],
+        "VPR": 0.0,
+        "FRR": 0.0,
+        "mean_enforcement_latency_ms": 0.018,
+        "median_enforcement_latency_ms": 0.019,
+        "mean_mandate_gen_latency_ms": 0.17,
+        "reproducibility_rate": 1.0,
+        "violation_breakdown_before_ddm": {}
+      },
+      "S2": {
+        "n": 30,
+        "effective_CCR": 1.0,
+        "effective_CCR_ci95": [
+          0.8865,
+          1.0
+        ],
+        "VPR": 0.0,
+        "FRR": 0.0,
+        "mean_enforcement_latency_ms": 0.021,
+        "median_enforcement_latency_ms": 0.017,
+        "mean_mandate_gen_latency_ms": 0.204,
+        "reproducibility_rate": 1.0,
+        "violation_breakdown_before_ddm": {}
+      },
+      "S3": {
+        "n": 30,
+        "effective_CCR": 1.0,
+        "effective_CCR_ci95": [
+          0.8865,
+          1.0
+        ],
+        "VPR": 0.2,
+        "FRR": 1.0,
+        "mean_enforcement_latency_ms": 0.014,
+        "median_enforcement_latency_ms": 0.015,
+        "mean_mandate_gen_latency_ms": 0.196,
+        "reproducibility_rate": 1.0,
+        "violation_breakdown_before_ddm": {}
+      },
+      "ALL": {
+        "n": 90,
+        "effective_CCR": 1.0,
+        "effective_CCR_ci95": [
+          0.9591,
+          1.0
+        ],
+        "VPR": 0.0667,
+        "FRR": 1.0,
+        "mean_enforcement_latency_ms": 0.018,
+        "median_enforcement_latency_ms": 0.017,
+        "reproducibility_rate": 1.0
+      }
+    },
+    "Claude Haiku 4.5": {
+      "S1": {
+        "n": 30,
+        "effective_CCR": 0.0,
+        "effective_CCR_ci95": [
+          0.0,
+          0.1135
+        ],
+        "VPR": 0.0,
+        "FRR": 0.0,
+        "mean_enforcement_latency_ms": 0,
+        "median_enforcement_latency_ms": 0,
+        "mean_mandate_gen_latency_ms": 0.021,
+        "reproducibility_rate": 1.0,
+        "violation_breakdown_before_ddm": {
+          "NO_PURCHASE": 30
+        }
+      },
+      "S2": {
+        "n": 30,
+        "effective_CCR": 0.0,
+        "effective_CCR_ci95": [
+          0.0,
+          0.1135
+        ],
+        "VPR": 0.0,
+        "FRR": 0.0,
+        "mean_enforcement_latency_ms": 0,
+        "median_enforcement_latency_ms": 0,
+        "mean_mandate_gen_latency_ms": 0.163,
+        "reproducibility_rate": 1.0,
+        "violation_breakdown_before_ddm": {
+          "NO_PURCHASE": 30
+        }
+      },
+      "S3": {
+        "n": 30,
+        "effective_CCR": 1.0,
+        "effective_CCR_ci95": [
+          0.8865,
+          1.0
+        ],
+        "VPR": 0.0,
+        "FRR": 0.0,
+        "mean_enforcement_latency_ms": 0.016,
+        "median_enforcement_latency_ms": 0.017,
+        "mean_mandate_gen_latency_ms": 0.24,
+        "reproducibility_rate": 1.0,
+        "violation_breakdown_before_ddm": {}
+      },
+      "ALL": {
+        "n": 90,
+        "effective_CCR": 0.3333,
+        "effective_CCR_ci95": [
+          0.2445,
+          0.4358
+        ],
+        "VPR": 0.0,
+        "FRR": 0.0,
+        "mean_enforcement_latency_ms": 0.016,
+        "median_enforcement_latency_ms": 0.017,
+        "reproducibility_rate": 1.0
+      }
+    }
+  },
+  "inferential": {
+    "CCR": {
+      "n_paired": 180,
+      "baseline_rate": 0.6667,
+      "ddm_rate": 0.6667,
+      "delta": 0.0,
+      "mcnemar_discordant_b": 0,
+      "mcnemar_discordant_c": 0,
+      "mcnemar_p_value": 1.0,
+      "cohens_h": 0.0,
+      "effect_interpretation": "small",
+      "significant_005": false
+    },
+    "SDR": {
+      "n_paired": 180,
+      "baseline_rate": 0.3333,
+      "ddm_rate": 0.3333,
+      "delta": 0.0,
+      "mcnemar_discordant_b": 0,
+      "mcnemar_discordant_c": 0,
+      "mcnemar_p_value": 1.0,
+      "cohens_h": 0.0,
+      "effect_interpretation": "small",
+      "significant_005": false
+    },
+    "HR": {
+      "n_paired": 180,
+      "baseline_rate": 0.0,
+      "ddm_rate": 0.0,
+      "delta": 0.0,
+      "mcnemar_discordant_b": 0,
+      "mcnemar_discordant_c": 0,
+      "mcnemar_p_value": 1.0,
+      "cohens_h": 0.0,
+      "effect_interpretation": "small",
+      "significant_005": false
+    },
+    "by_model": {
+      "Claude Haiku 4.5": {
+        "CCR": {
+          "n_paired": 90,
+          "baseline_rate": 0.3333,
+          "ddm_rate": 0.3333,
+          "delta": 0.0,
+          "mcnemar_p_value": 1.0,
+          "cohens_h": 0.0
+        }
+      },
+      "Claude Sonnet 4.5": {
+        "CCR": {
+          "n_paired": 90,
+          "baseline_rate": 1.0,
+          "ddm_rate": 1.0,
+          "delta": 0.0,
+          "mcnemar_p_value": 1.0,
+          "cohens_h": 0.0
+        }
+      }
+    }
+  },
+  "scenario_comparison": {
+    "S1": {
+      "CCR": {
+        "baseline": 0.5,
+        "ddm": 0.5,
+        "delta": 0.0,
+        "n": 60
+      },
+      "SDR": {
+        "baseline": 0.5,
+        "ddm": 0.5,
+        "delta": 0.0,
+        "n": 60
+      },
+      "HR": {
+        "baseline": 0.0,
+        "ddm": 0.0,
+        "delta": 0.0,
+        "n": 60
+      }
+    },
+    "S2": {
+      "CCR": {
+        "baseline": 0.5,
+        "ddm": 0.5,
+        "delta": 0.0,
+        "n": 60
+      },
+      "SDR": {
+        "baseline": 0.5,
+        "ddm": 0.5,
+        "delta": 0.0,
+        "n": 60
+      },
+      "HR": {
+        "baseline": 0.0,
+        "ddm": 0.0,
+        "delta": 0.0,
+        "n": 60
+      }
+    },
+    "S3": {
+      "CCR": {
+        "baseline": 1.0,
+        "ddm": 1.0,
+        "delta": 0.0,
+        "n": 60
+      },
+      "SDR": {
+        "baseline": 0.0,
+        "ddm": 0.0,
+        "delta": 0.0,
+        "n": 60
+      },
+      "HR": {
+        "baseline": 0.0,
+        "ddm": 0.0,
+        "delta": 0.0,
+        "n": 60
+      }
+    }
+  }
+}

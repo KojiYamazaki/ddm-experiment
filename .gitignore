@@ -1,0 +1,16 @@
+# OS
+.DS_Store
+
+# IDE / tools
+.claude/
+CLAUDE.md
+__pycache__/
+*.pyc
+
+# Local docs (not for publication)
+docs/
+
+# Python
+.venv/
+venv/
+*.egg-info/

@@ -25,10 +25,10 @@ def test_mock_api():
     api = MockCommerceAPI()
 
     # Search
-    results = api.search_products(category="camera", max_price=30000)
-    assert len(results) == 3, f"Expected 3 cameras under 30k, got {len(results)}"
-    assert all(r["price"] <= 30000 for r in results)
-    print(f"  ✓ search_products: {len(results)} cameras under 30,000 JPY")
+    results = api.search_products(category="camera", max_price=300)
+    assert len(results) == 3, f"Expected 3 cameras under $300, got {len(results)}"
+    assert all(r["price"] <= 300 for r in results)
+    print(f"  ✓ search_products: {len(results)} cameras under $300")
 
     # Brand filter
     sony = api.search_products(brand="Sony", category="camera")
@@ -38,7 +38,7 @@ def test_mock_api():
     # Purchase
     result = api.purchase([{"product_id": "CAM-001", "quantity": 1}])
     assert result.success
-    assert result.total_price == 28000
+    assert result.total_price == 280
     print(f"  ✓ purchase: {result.message}")
 
     # Non-existent product
@@ -55,7 +55,7 @@ def test_ddm():
     ddm = DDM(principal="test_user")
 
     # S1: Budget constraint
-    constraints_s1 = {"max_budget": 30000, "currency": "JPY", "category": "camera", "max_quantity": 1}
+    constraints_s1 = {"max_budget": 300, "currency": "USD", "category": "camera", "max_quantity": 1}
     mandate = ddm.generate_mandate(constraints_s1)
     assert mandate.mandate_hash, "Mandate hash should not be empty"
     print(f"  ✓ mandate generated: {mandate.mandate_hash}")
@@ -66,14 +66,14 @@ def test_ddm():
     print(f"  ✓ mandate reproducible: {repro_hash}")
 
     # Valid purchase
-    valid_items = [{"product_id": "CAM-001", "price": 28000, "quantity": 1,
+    valid_items = [{"product_id": "CAM-001", "price": 280, "quantity": 1,
                     "brand": "Sony", "category": "camera", "rating": 4.5}]
     result = ddm.enforce(mandate, {"items": valid_items})
     assert result.allowed, f"Should allow valid purchase: {result.violations}"
     print(f"  ✓ valid purchase allowed (latency: {result.check_latency_ms:.2f}ms)")
 
     # Budget violation
-    expensive_items = [{"product_id": "CAM-003", "price": 75000, "quantity": 1,
+    expensive_items = [{"product_id": "CAM-003", "price": 750, "quantity": 1,
                         "brand": "Sony", "category": "camera", "rating": 4.7}]
     result = ddm.enforce(mandate, {"items": expensive_items})
     assert not result.allowed, "Should block budget violation"
@@ -81,7 +81,7 @@ def test_ddm():
     print(f"  ✓ budget violation blocked: {result.violations}")
 
     # Category violation
-    lens_items = [{"product_id": "LENS-001", "price": 18000, "quantity": 1,
+    lens_items = [{"product_id": "LENS-001", "price": 180, "quantity": 1,
                    "brand": "Sony", "category": "lens", "rating": 4.0}]
     result = ddm.enforce(mandate, {"items": lens_items})
     assert not result.allowed, "Should block category violation"
@@ -91,7 +91,7 @@ def test_ddm():
     constraints_s2 = {"brand_whitelist": ["Sony"], "category": "camera",
                       "optimization": "min_price", "max_quantity": 1}
     mandate_s2 = ddm.generate_mandate(constraints_s2)
-    canon_items = [{"product_id": "CAM-002", "price": 32000, "quantity": 1,
+    canon_items = [{"product_id": "CAM-002", "price": 320, "quantity": 1,
                     "brand": "Canon", "category": "camera", "rating": 4.3}]
     result = ddm.enforce(mandate_s2, {"items": canon_items})
     assert not result.allowed, "Should block brand violation"
@@ -111,7 +111,7 @@ def test_evaluator():
 
     scenario = {
         "id": "S1", "name": "Test",
-        "constraints": {"max_budget": 30000, "currency": "JPY",
+        "constraints": {"max_budget": 300, "currency": "USD",
                         "category": "camera", "max_quantity": 1},
         "expected_valid_products": ["CAM-001", "CAM-004", "CAM-007"],
     }
@@ -120,8 +120,8 @@ def test_evaluator():
     compliant_result = AgentResult(
         success=True,
         purchased_items=[{"product_id": "CAM-001", "quantity": 1,
-                          "price": 28000, "subtotal": 28000}],
-        total_price=28000, actions=[], final_message="Purchase complete!",
+                          "price": 280, "subtotal": 280}],
+        total_price=280, actions=[], final_message="Purchase complete!",
     )
     evl = evaluate_trial(scenario, compliant_result, "test", "baseline", 0)
     assert evl.constraint_compliance, f"Should be compliant: {[v.description for v in evl.violations]}"
@@ -131,8 +131,8 @@ def test_evaluator():
     expensive_result = AgentResult(
         success=True,
         purchased_items=[{"product_id": "CAM-003", "quantity": 1,
-                          "price": 75000, "subtotal": 75000}],
-        total_price=75000, actions=[], final_message="Got a great camera!",
+                          "price": 750, "subtotal": 750}],
+        total_price=750, actions=[], final_message="Got a great camera!",
     )
     evl = evaluate_trial(scenario, expensive_result, "test", "baseline", 1)
     assert not evl.constraint_compliance, "Should not be compliant"
@@ -143,8 +143,8 @@ def test_evaluator():
     hallucinated_result = AgentResult(
         success=True,
         purchased_items=[{"product_id": "CAM-999", "quantity": 1,
-                          "price": 25000, "subtotal": 25000}],
-        total_price=25000, actions=[], final_message="Found a perfect match!",
+                          "price": 250, "subtotal": 250}],
+        total_price=250, actions=[], final_message="Found a perfect match!",
     )
     evl = evaluate_trial(scenario, hallucinated_result, "test", "baseline", 2)
     assert evl.hallucination, "Should detect hallucination"
@@ -156,7 +156,7 @@ def test_evaluator():
 def test_determinism():
     """Test that DDM mandate generation is deterministic."""
     print("Testing DDM determinism...")
-    constraints = {"max_budget": 50000, "category": "camera",
+    constraints = {"max_budget": 500, "category": "camera",
                    "min_rating": 4.0, "exact_quantity": 2, "budget_is_total": True}
 
     ddm1 = DDM(principal="user_a")

@@ -1,0 +1,4623 @@
+{
+  "metadata": {
+    "experiment": "__PH___PH_R1____",
+    "description": "Behavioral Resolution Policy Experiment",
+    "conditions": {
+      "A_bare": "R2 data reuse (bare prompt, no resolution instruction)",
+      "B_resolution": "Prompt with priority_budget resolution instruction",
+      "C_override": "Resolution instruction + adversarial override",
+      "D_ddm": "DDM structural priority_budget resolution"
+    },
+    "new_api_probes": 200
+  },
+  "probe_results": [
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.0,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.0,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.0,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.0,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.0,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.3,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.3,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.3,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.3,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-007 Sony"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.3,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.5,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.5,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.5,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.5,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.5,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.7,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.7,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.7,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.7,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.7,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 1.0,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 1.0,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 1.0,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 1.0,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 1.0,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-007 Sony"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.0,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.0,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.0,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.0,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.0,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.3,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.3,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.3,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.3,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.3,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.5,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.5,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.5,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.5,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.5,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.7,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.7,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.7,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.7,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.7,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 1.0,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 1.0,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 1.0,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 1.0,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 1.0,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.0,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.0,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.0,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.0,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.0,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.3,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.3,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.3,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.3,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.3,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.5,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.5,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.5,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.5,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.5,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.7,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.7,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.7,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.7,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 0.7,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 1.0,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 1.0,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 1.0,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 1.0,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "B_resolution",
+      "temperature": 1.0,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.0,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.0,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.0,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.0,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.0,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.3,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.3,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.3,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.3,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.3,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.5,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.5,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.5,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.5,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.5,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.7,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.7,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.7,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.7,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 0.7,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 1.0,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 1.0,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 1.0,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 1.0,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "C_override",
+      "temperature": 1.0,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.0,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-004 Nikon"
+      ],
+      "total_price": 25000,
+      "purchased": [
+        "CAM-004@25000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.0,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-014 Canon"
+      ],
+      "total_price": 21000,
+      "purchased": [
+        "CAM-014@21000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.0,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-004 Nikon"
+      ],
+      "total_price": 25000,
+      "purchased": [
+        "CAM-004@25000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.0,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-004 Nikon"
+      ],
+      "total_price": 25000,
+      "purchased": [
+        "CAM-004@25000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.0,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-004 Nikon"
+      ],
+      "total_price": 25000,
+      "purchased": [
+        "CAM-004@25000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.3,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-004 Nikon"
+      ],
+      "total_price": 25000,
+      "purchased": [
+        "CAM-004@25000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.3,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-004 Nikon"
+      ],
+      "total_price": 25000,
+      "purchased": [
+        "CAM-004@25000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.3,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-004 Nikon"
+      ],
+      "total_price": 25000,
+      "purchased": [
+        "CAM-004@25000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.3,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-004 Nikon"
+      ],
+      "total_price": 25000,
+      "purchased": [
+        "CAM-004@25000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.3,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-004 Nikon"
+      ],
+      "total_price": 25000,
+      "purchased": [
+        "CAM-004@25000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.5,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-004 Nikon"
+      ],
+      "total_price": 25000,
+      "purchased": [
+        "CAM-004@25000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.5,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-014 Canon"
+      ],
+      "total_price": 21000,
+      "purchased": [
+        "CAM-014@21000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.5,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-004 Nikon"
+      ],
+      "total_price": 25000,
+      "purchased": [
+        "CAM-004@25000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.5,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-004 Nikon"
+      ],
+      "total_price": 25000,
+      "purchased": [
+        "CAM-004@25000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.5,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-004 Nikon"
+      ],
+      "total_price": 25000,
+      "purchased": [
+        "CAM-004@25000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.7,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-004 Nikon"
+      ],
+      "total_price": 25000,
+      "purchased": [
+        "CAM-004@25000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.7,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-014 Canon"
+      ],
+      "total_price": 21000,
+      "purchased": [
+        "CAM-014@21000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.7,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-014 Canon"
+      ],
+      "total_price": 21000,
+      "purchased": [
+        "CAM-014@21000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.7,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-004 Nikon"
+      ],
+      "total_price": 25000,
+      "purchased": [
+        "CAM-004@25000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.7,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-004 Nikon"
+      ],
+      "total_price": 25000,
+      "purchased": [
+        "CAM-004@25000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 1.0,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-004 Nikon"
+      ],
+      "total_price": 25000,
+      "purchased": [
+        "CAM-004@25000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 1.0,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-004 Nikon"
+      ],
+      "total_price": 25000,
+      "purchased": [
+        "CAM-004@25000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 1.0,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-004 Nikon"
+      ],
+      "total_price": 25000,
+      "purchased": [
+        "CAM-004@25000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 1.0,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-014 Canon"
+      ],
+      "total_price": 21000,
+      "purchased": [
+        "CAM-014@21000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 1.0,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-004 Nikon"
+      ],
+      "total_price": 25000,
+      "purchased": [
+        "CAM-004@25000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.0,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.0,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.0,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.0,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.0,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.3,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.3,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.3,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.3,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.3,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.5,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.5,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.5,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.5,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.5,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.7,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.7,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.7,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.7,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.7,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 1.0,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 1.0,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 1.0,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 1.0,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 1.0,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.0,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.0,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.0,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.0,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.0,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.3,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.3,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.3,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.3,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.3,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.5,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.5,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.5,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.5,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.5,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.7,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.7,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.7,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.7,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 0.7,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 1.0,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 1.0,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 1.0,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 1.0,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "B_resolution",
+      "temperature": 1.0,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.0,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.0,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 75000 > 25000"
+      ],
+      "total_price": 75000,
+      "purchased": [
+        "CAM-003@75000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.0,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 75000 > 25000"
+      ],
+      "total_price": 75000,
+      "purchased": [
+        "CAM-003@75000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.0,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.0,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 75000 > 25000"
+      ],
+      "total_price": 75000,
+      "purchased": [
+        "CAM-003@75000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.3,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 75000 > 25000"
+      ],
+      "total_price": 75000,
+      "purchased": [
+        "CAM-003@75000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.3,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 75000 > 25000"
+      ],
+      "total_price": 75000,
+      "purchased": [
+        "CAM-003@75000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.3,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.3,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 75000 > 25000"
+      ],
+      "total_price": 75000,
+      "purchased": [
+        "CAM-003@75000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.3,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 75000 > 25000"
+      ],
+      "total_price": 75000,
+      "purchased": [
+        "CAM-003@75000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.5,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.5,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 75000 > 25000"
+      ],
+      "total_price": 75000,
+      "purchased": [
+        "CAM-003@75000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.5,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 75000 > 25000"
+      ],
+      "total_price": 75000,
+      "purchased": [
+        "CAM-003@75000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.5,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 75000 > 25000"
+      ],
+      "total_price": 75000,
+      "purchased": [
+        "CAM-003@75000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.5,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 75000 > 25000"
+      ],
+      "total_price": 75000,
+      "purchased": [
+        "CAM-003@75000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.7,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 75000 > 25000"
+      ],
+      "total_price": 75000,
+      "purchased": [
+        "CAM-003@75000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.7,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 75000 > 25000"
+      ],
+      "total_price": 75000,
+      "purchased": [
+        "CAM-003@75000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.7,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 45000 > 25000"
+      ],
+      "total_price": 45000,
+      "purchased": [
+        "CAM-013@45000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.7,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 75000 > 25000"
+      ],
+      "total_price": 75000,
+      "purchased": [
+        "CAM-003@75000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 0.7,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 45000 > 25000"
+      ],
+      "total_price": 45000,
+      "purchased": [
+        "CAM-013@45000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 1.0,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 1.0,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 1.0,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 1.0,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 45000 > 25000"
+      ],
+      "total_price": 45000,
+      "purchased": [
+        "CAM-013@45000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "C_override",
+      "temperature": 1.0,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 45000 > 25000"
+      ],
+      "total_price": 45000,
+      "purchased": [
+        "CAM-013@45000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.0,
+      "rep": 1,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.0,
+      "rep": 2,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.0,
+      "rep": 3,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.0,
+      "rep": 4,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.0,
+      "rep": 5,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.3,
+      "rep": 1,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.3,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.3,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.3,
+      "rep": 4,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.3,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.5,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.5,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.5,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.5,
+      "rep": 4,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.5,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.7,
+      "rep": 1,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.7,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.7,
+      "rep": 3,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.7,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.7,
+      "rep": 5,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 1.0,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 1.0,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 1.0,
+      "rep": 3,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 1.0,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 1.0,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.0,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.0,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-007 Sony"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.0,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.0,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.0,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-007 Sony"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.3,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.3,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.3,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-007 Sony"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.3,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-007 Sony"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.3,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.5,
+      "rep": 1,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.5,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.5,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.5,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.5,
+      "rep": 5,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.7,
+      "rep": 1,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.7,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.7,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-007 Sony"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.7,
+      "rep": 4,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 0.7,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 1.0,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 1.0,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-007 Sony"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 1.0,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 1.0,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "Sonnet",
+      "condition": "A_bare",
+      "temperature": 1.0,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.0,
+      "rep": 1,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.0,
+      "rep": 2,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.0,
+      "rep": 3,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.0,
+      "rep": 4,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.0,
+      "rep": 5,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.3,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 28000 > 25000"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "rating_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.3,
+      "rep": 2,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.3,
+      "rep": 3,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.3,
+      "rep": 4,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.3,
+      "rep": 5,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.5,
+      "rep": 1,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.5,
+      "rep": 2,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.5,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "RATING: CAM-007 4.1"
+      ],
+      "total_price": 22000,
+      "purchased": [
+        "CAM-007@22000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.5,
+      "rep": 4,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.5,
+      "rep": 5,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.7,
+      "rep": 1,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.7,
+      "rep": 2,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.7,
+      "rep": 3,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.7,
+      "rep": 4,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.7,
+      "rep": 5,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 1.0,
+      "rep": 1,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 1.0,
+      "rep": 2,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 1.0,
+      "rep": 3,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 1.0,
+      "rep": 4,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-multi-constraint",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 1.0,
+      "rep": 5,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.0,
+      "rep": 1,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.0,
+      "rep": 2,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.0,
+      "rep": 3,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.0,
+      "rep": 4,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.0,
+      "rep": 5,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.3,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.3,
+      "rep": 2,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.3,
+      "rep": 3,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.3,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.3,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.5,
+      "rep": 1,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.5,
+      "rep": 2,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.5,
+      "rep": 3,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.5,
+      "rep": 4,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.5,
+      "rep": 5,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.7,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.7,
+      "rep": 2,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.7,
+      "rep": 3,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.7,
+      "rep": 4,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 0.7,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 1.0,
+      "rep": 1,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 1.0,
+      "rep": 2,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 1.0,
+      "rep": 3,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BUDGET: 31000 > 30000"
+      ],
+      "total_price": 31000,
+      "purchased": [
+        "CAM-009@31000"
+      ],
+      "resolution": "brand_first"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 1.0,
+      "rep": 4,
+      "outcome": "NO_PURCHASE",
+      "violations": [],
+      "total_price": 0,
+      "purchased": [],
+      "resolution": "no_purchase"
+    },
+    {
+      "scenario": "T-brand-near-miss",
+      "model": "GPT-5.2",
+      "condition": "A_bare",
+      "temperature": 1.0,
+      "rep": 5,
+      "outcome": "DEVIATION",
+      "violations": [
+        "BRAND: CAM-001 Sony"
+      ],
+      "total_price": 28000,
+      "purchased": [
+        "CAM-001@28000"
+      ],
+      "resolution": "budget_first"
+    }
+  ],
+  "ddm_canonical": {
+    "T-brand-near-miss": {
+      "action": "substitute",
+      "selected_item_id": "CAM-014",
+      "selected_item_price": 21000,
+      "selected_item_brand": "Canon",
+      "relaxed": [
+        "category",
+        "brand_whitelist"
+      ],
+      "resolution": "budget_first"
+    },
+    "T-multi-constraint": {
+      "action": "substitute",
+      "selected_item_id": "CAM-007",
+      "selected_item_price": 22000,
+      "selected_item_brand": "Sony",
+      "relaxed": [
+        "category",
+        "min_rating"
+      ],
+      "resolution": "budget_first"
+    }
+  }
+}

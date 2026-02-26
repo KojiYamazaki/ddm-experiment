@@ -22,15 +22,20 @@ MODELS = []
 if os.environ.get("OPENAI_API_KEY"):
     MODELS.append({
         "provider": "openai",
-        "model_id": "gpt-4o",
-        "display_name": "GPT-4o",
+        "model_id": "gpt-5.2",
+        "display_name": "GPT-5.2",
     })
 
 if os.environ.get("ANTHROPIC_API_KEY"):
     MODELS.append({
         "provider": "anthropic",
-        "model_id": "claude-sonnet-4-20250514",
-        "display_name": "Claude Sonnet 4",
+        "model_id": "claude-sonnet-4-5-20250929",
+        "display_name": "Claude Sonnet 4.5",
+    })
+    MODELS.append({
+        "provider": "anthropic",
+        "model_id": "claude-haiku-4-5-20251001",
+        "display_name": "Claude Haiku 4.5",
     })
 
 # Warning printed at import time; run_all.py will check before running experiments
