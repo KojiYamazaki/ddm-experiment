@@ -5,34 +5,23 @@ Trade-off? Resolution Policy as Delegation Governance in Autonomous Agents."
 
 ## Versioning
 
-- **Tag `paper-experiments-as-run`**: DDM implementation at the time of
-  paper experiments. Stored `mandate_hash` values in `results/probe_*.json`
-  correspond to this version.
-- **Tag `v1.0.0` (this version)**: AE submission version. Incorporates
-  `resolution_policy` as an explicit input to the mandate hash, matching
-  the formal definition M = f(u, cap, r, ctx, p_v, rp) in paper Section 4.
-  This is a refactor for architectural clarity; no paper claims are affected.
+This repository provides two tagged versions:
 
-## What `results/` contains
+- **`paper-experiments-as-run`** — the code version consistent with the
+  `mandate_hash` values stored in `results/probe_*.json`.
+- **`v1.0.1`** — the submission version. Mandate hash is computed following
+  the formal definition M = f(u, cap, r, ctx, p_v, rp) in paper Section 4,
+  which makes the Resolution Policy an explicit input.
 
-Pre-computed experimental results from the paper, generated with the
-`paper-experiments-as-run` version. Each `results/probe_r*_results.json`
-file contains the complete probe data for that round.
+All DDM decisions (products selected, violations detected) are identical
+between the two tags; the distinction is limited to hash input composition.
 
-## What the refactor changed
+## Pre-computed results
 
-The AE submission version incorporates Resolution Policy (rp) as a
-first-class input to the mandate generation function, matching the
-paper's formal definition in Section 4. This means:
-
-1. Re-running experiments with `v1.0.0` will produce different
-   `mandate_hash` values than those stored in `results/`.
-2. Agent behavior, DDM decisions (enforce/resolve outcomes), and all
-   statistical results are unchanged -- the refactor is a structural
-   cleanup, not a behavioral change.
-3. The paper's empirical claims (R1-R7) depend on determinism,
-   non-bypassability, and prompt-independence -- not on specific
-   hash values.
+`results/probe_r*_results.json` files contain complete probe data for each
+round. The `mandate_hash` values in these files correspond to the
+`paper-experiments-as-run` tag. Running probes with `v1.0.1` produces
+identical DDM decisions with different hash values.
 
 ## Reproducing the paper
 
@@ -47,11 +36,8 @@ python scripts/probe_r4_ddm_posthoc.py     # example probe (requires API keys)
 For the **Reproduced** badge (paper results are re-obtainable):
 - Pre-computed results are in `results/`. Each file maps to a paper round.
 - To re-run probes, execute the corresponding `scripts/probe_r*.py`.
-- To reproduce the exact `mandate_hash` values in `results/`, check out
-  the `paper-experiments-as-run` tag.
-- With `v1.0.0`, re-running probes produces identical DDM decisions
-  (same products selected, same violations detected) with updated
-  hash values.
+- To verify hash-level consistency with `results/`, use the
+  `paper-experiments-as-run` tag.
 
 ## Design note on constraint checking
 

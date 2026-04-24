@@ -430,15 +430,12 @@ class DDM:
         mandate from its stored inputs using the current DDM implementation.
 
         Note on mandate_hash values in results/:
-        Results in results/probe_*.json were generated with a prior DDM
-        implementation (before resolution_policy was incorporated into
-        the hash per M = f(u, cap, r, ctx, p_v, rp) in paper Section 4).
-        Those stored hashes reflect the code version at the time of the
-        paper's experiments. The paper's empirical claims (R1-R7) depend
-        on structural properties of DDM (determinism, non-bypassability,
-        prompt-independence), not on specific hash values. To reproduce
-        the paper's hash values, check out the git tag
-        `paper-experiments-as-run`.
+        The `mandate_hash` values in `results/probe_*.json` correspond
+        to the `paper-experiments-as-run` tag, where resolution_policy
+        is not part of the hash input. The current implementation
+        (v1.0.1) includes resolution_policy per M = f(u, cap, r, ctx,
+        p_v, rp) in paper Section 4. DDM decisions are identical between
+        the two versions; only hash values differ.
         """
         hash_input = {
             "principal": mandate.inputs.principal,

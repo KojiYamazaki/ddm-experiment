@@ -181,12 +181,12 @@ This artifact implements the DDM components empirically evaluated in the paper: 
 
 ## Versioning and Reproducibility
 
-This repository has two tagged versions:
+This repository provides two tagged versions for reviewer reference:
 
-- **`paper-experiments-as-run`**: the DDM implementation at the time experiments were conducted. Stored `mandate_hash` values in `results/` correspond to this version.
-- **`v1.0.0`**: AE submission version. Incorporates `resolution_policy` as an explicit input to the mandate hash, matching the formal definition M = f(u, cap, r, ctx, p_v, rp) in paper §4. This is a structural refinement; all paper claims are unaffected.
+- **`paper-experiments-as-run`** — the code version consistent with the `mandate_hash` values stored in `results/`.
+- **`v1.0.1`** — the submission version. Mandate hash is computed following the formal definition M = f(u, cap, r, ctx, p_v, rp) in paper §4, which makes the Resolution Policy an explicit input.
 
-Re-running experiments with `v1.0.0` produces different `mandate_hash` values but identical DDM decisions (same products selected, same violations detected). See [ARTIFACT_NOTES.md](ARTIFACT_NOTES.md) for details.
+All DDM decisions (products selected, violations detected) are identical between the two tags; the distinction is limited to hash input composition. See [ARTIFACT_NOTES.md](ARTIFACT_NOTES.md) for details.
 
 ## License
 
