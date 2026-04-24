@@ -53,10 +53,10 @@ paper exercises a single capability domain, and Intent-to-Mandate conversion
 (i.e., deriving rules from natural-language intent, or managing multiple
 capability schemas) is explicitly left to future work (Section 7).
 
-A production-grade DDM implementation would externalize constraint schemas as
-per-capability definition files and compose them with principal intent at
-mandate-generation time. That broader architecture is out of scope for this
-artifact, which focuses on the paper's empirical claims.
+A generalization of DDM to arbitrary capability domains would externalize
+constraint schemas and compose them with principal intent at mandate-generation
+time. That broader architecture is out of scope for this artifact, which focuses
+on the paper's empirical claims.
 
 ## Script-to-paper mapping
 
