@@ -54,9 +54,9 @@ def test_ddm():
     print("Testing DDM...")
     ddm = DDM(principal="test_user")
 
-    # S1: Budget constraint
-    constraints_s1 = {"max_budget": 300, "currency": "USD", "category": "camera", "max_quantity": 1}
-    mandate = ddm.generate_mandate(constraints_s1)
+    # Budget constraint (cf. T-impossible-budget)
+    constraints_budget = {"max_budget": 300, "currency": "USD", "category": "camera", "max_quantity": 1}
+    mandate = ddm.generate_mandate(constraints_budget)
     assert mandate.mandate_hash, "Mandate hash should not be empty"
     print(f"  ✓ mandate generated: {mandate.mandate_hash}")
 
@@ -87,13 +87,13 @@ def test_ddm():
     assert not result.allowed, "Should block category violation"
     print(f"  ✓ category violation blocked: {result.violations}")
 
-    # S2: Brand whitelist
-    constraints_s2 = {"brand_whitelist": ["Sony"], "category": "camera",
-                      "optimization": "min_price", "max_quantity": 1}
-    mandate_s2 = ddm.generate_mandate(constraints_s2)
+    # Brand whitelist constraint (cf. T-brand-near-miss)
+    constraints_brand = {"brand_whitelist": ["Sony"], "category": "camera",
+                         "optimization": "min_price", "max_quantity": 1}
+    mandate_brand = ddm.generate_mandate(constraints_brand)
     canon_items = [{"product_id": "CAM-002", "price": 320, "quantity": 1,
                     "brand": "Canon", "category": "camera", "rating": 4.3}]
-    result = ddm.enforce(mandate_s2, {"items": canon_items})
+    result = ddm.enforce(mandate_brand, {"items": canon_items})
     assert not result.allowed, "Should block brand violation"
     print(f"  ✓ brand violation blocked: {result.violations}")
 
@@ -110,7 +110,7 @@ def test_evaluator():
     print("Testing Evaluator...")
 
     scenario = {
-        "id": "S1", "name": "Test",
+        "id": "test-budget", "name": "Budget constraint test",
         "constraints": {"max_budget": 300, "currency": "USD",
                         "category": "camera", "max_quantity": 1},
         "expected_valid_products": ["CAM-001", "CAM-004", "CAM-007"],
@@ -174,7 +174,81 @@ def test_determinism():
         "Different principal should produce different hash"
     print(f"  ✓ different principal → different hash: {m3.mandate_hash} != {m1.mandate_hash}")
 
+    # Different RP → different hash
+    m4 = ddm1.generate_mandate(constraints, resolution_policy={"type": "fail_closed"})
+    rp_relax = {"type": "relax", "method": "lexicographic",
+                "priority": ["max_budget", "min_rating", "category"]}
+    m5 = ddm1.generate_mandate(constraints, resolution_policy=rp_relax)
+    assert m4.mandate_hash != m5.mandate_hash, \
+        "Different RP should produce different hash"
+    print(f"  ✓ different RP → different hash: {m4.mandate_hash} != {m5.mandate_hash}")
+
     print("  Determinism: ALL PASSED\n")
+
+
+def test_resolution_policy():
+    """Test that enforce() uses mandate's Resolution Policy."""
+    print("Testing Resolution Policy integration...")
+
+    # Catalog with a near-miss scenario
+    catalog = [
+        {"id": "P1", "brand": "Canon", "price": 210, "category": "camera",
+         "rating": 4.3, "in_stock": True},
+        {"id": "P2", "brand": "Panasonic", "price": 310, "category": "camera",
+         "rating": 4.2, "in_stock": True},
+    ]
+
+    constraints = {"max_budget": 300, "category": "camera",
+                   "brand_whitelist": ["Panasonic"], "max_quantity": 1}
+
+    ddm = DDM(principal="test_user")
+
+    # fail_closed mandate: violation → block
+    mandate_fc = ddm.generate_mandate(constraints)  # default: fail_closed
+    agent_request = {"items": [{"product_id": "P2", "price": 310, "quantity": 1,
+                                "brand": "Panasonic", "category": "camera", "rating": 4.2}]}
+    result = ddm.enforce(mandate_fc, agent_request, catalog)
+    assert not result.allowed, "fail_closed should block budget violation"
+    assert result.resolution_action == "block"
+    print(f"  ✓ fail_closed: blocked (violations: {result.violations})")
+
+    # relax (priority_budget) mandate: violation → substitute
+    rp_budget = {"type": "relax", "method": "lexicographic",
+                 "priority": ["max_budget", "brand_whitelist", "min_rating", "category"]}
+    mandate_relax = ddm.generate_mandate(constraints, resolution_policy=rp_budget)
+    result = ddm.enforce(mandate_relax, agent_request, catalog)
+    assert result.allowed, "relax should allow with substitute"
+    assert result.resolution_action == "substitute"
+    assert result.selected_item["id"] == "P1", \
+        f"Should select Canon P1 (within budget): got {result.selected_item}"
+    print(f"  ✓ relax (priority_budget): substitute → {result.selected_item['id']} "
+          f"[{result.selected_item['brand']} ${result.selected_item['price']}] "
+          f"(relaxed: {result.relaxed_constraints})")
+
+    # relax (priority_brand) mandate: violation → substitute (Panasonic, over budget)
+    rp_brand = {"type": "relax", "method": "lexicographic",
+                "priority": ["brand_whitelist", "max_budget", "min_rating", "category"]}
+    mandate_brand = ddm.generate_mandate(constraints, resolution_policy=rp_brand)
+    result = ddm.enforce(mandate_brand, agent_request, catalog)
+    assert result.allowed, "relax should allow with substitute"
+    assert result.selected_item["id"] == "P2", \
+        f"Should select Panasonic P2 (brand priority): got {result.selected_item}"
+    print(f"  ✓ relax (priority_brand): substitute → {result.selected_item['id']} "
+          f"[{result.selected_item['brand']} ${result.selected_item['price']}] "
+          f"(relaxed: {result.relaxed_constraints})")
+
+    # No violation → allow regardless of RP
+    good_request = {"items": [{"product_id": "P1", "price": 210, "quantity": 1,
+                               "brand": "Panasonic", "category": "camera", "rating": 4.2}]}
+    # Adjust constraints so P1 satisfies (remove brand_whitelist conflict)
+    constraints_ok = {"max_budget": 300, "category": "camera", "max_quantity": 1}
+    mandate_ok = ddm.generate_mandate(constraints_ok, resolution_policy=rp_budget)
+    result = ddm.enforce(mandate_ok, good_request, catalog)
+    assert result.allowed, "No violation should always allow"
+    assert result.resolution_action == "allow"
+    print(f"  ✓ no violation: allowed (RP not consulted)")
+
+    print("  Resolution Policy: ALL PASSED\n")
 
 
 if __name__ == "__main__":
@@ -187,8 +261,9 @@ if __name__ == "__main__":
     test_ddm()
     test_evaluator()
     test_determinism()
+    test_resolution_policy()
 
     print("=" * 60)
     print("ALL TESTS PASSED ✓")
-    print("Environment is ready. Run: python scripts/run_all.py")
+    print("Environment is ready. Run individual probes: python scripts/probe_r*.py")
     print("=" * 60)

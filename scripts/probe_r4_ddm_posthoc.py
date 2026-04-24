@@ -28,6 +28,7 @@ import time
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.ddm import DDM
+from scripts.probe_utils import ddm_enforce, CATALOG_MAP
 
 # Same catalog as R2
 EXTENDED_CATALOG = [
@@ -96,7 +97,6 @@ def main():
     print(f"Loaded {len(r2_results)} R2 probes")
     print()
 
-    ddm = DDM(principal="experiment_user")
     all_results = []
 
     # Counters
@@ -108,7 +108,6 @@ def main():
     errors = 0
 
     # Latency tracking
-    gen_latencies = []
     enf_latencies = []
 
     for i, probe in enumerate(r2_results):
@@ -122,10 +121,6 @@ def main():
 
         constraints = SCENARIO_CONSTRAINTS[scenario_id]
 
-        # Generate mandate
-        mandate = ddm.generate_mandate(constraints)
-        gen_latencies.append(mandate.generation_latency_ms)
-
         if r2_outcome == "NO_PURCHASE" or not purchased:
             no_purchase += 1
             all_results.append({
@@ -138,17 +133,13 @@ def main():
                 "ddm_action": "N/A",
                 "ddm_allowed": None,
                 "ddm_violations": [],
-                "mandate_hash": mandate.mandate_hash,
                 "classification": "NO_PURCHASE",
             })
             continue
 
-        # Parse and enrich purchased items
-        items = parse_purchased(purchased)
-        purchase_request = {"items": items}
-
-        # Enforce
-        result = ddm.enforce(mandate, purchase_request)
+        # Enforce via shared ddm_enforce
+        purchased_items = parse_purchased(purchased)
+        result = ddm_enforce(constraints, purchased_items, CATALOG_MAP)
         enf_latencies.append(result.check_latency_ms)
 
         # Classify
@@ -193,7 +184,7 @@ def main():
             "ddm_action": "BLOCKED" if not result.allowed else "ALLOWED",
             "ddm_allowed": result.allowed,
             "ddm_violations": result.violations,
-            "mandate_hash": mandate.mandate_hash,
+            "mandate_hash": result.mandate_hash,
             "classification": classification,
             "enforcement_latency_ms": result.check_latency_ms,
         })
@@ -204,6 +195,7 @@ def main():
     print(f"{'='*60}")
 
     repro_results = {}
+    ddm = DDM(principal="experiment_user")
     for scenario_id, constraints in SCENARIO_CONSTRAINTS.items():
         hashes = []
         for _ in range(REPRODUCIBILITY_ROUNDS):
@@ -253,11 +245,6 @@ def main():
     print(f"  Reproducibility:                  {sum(1 for r in repro_results.values() if r['all_match'])}/{len(repro_results)} = {repro_rate:.1%}")
     print()
 
-    if gen_latencies:
-        print(f"  Mandate generation latency:")
-        print(f"    Mean:   {sum(gen_latencies)/len(gen_latencies):.3f} ms")
-        print(f"    Max:    {max(gen_latencies):.3f} ms")
-        print(f"    Min:    {min(gen_latencies):.3f} ms")
     if enf_latencies:
         print(f"  Enforcement latency:")
         print(f"    Mean:   {sum(enf_latencies)/len(enf_latencies):.3f} ms")

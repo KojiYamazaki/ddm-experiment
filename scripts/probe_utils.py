@@ -198,13 +198,33 @@ def evaluate_basic(constraints, result, catalog):
     return ("DEVIATION" if violations else "COMPLIANT"), violations
 
 
-def ddm_enforce(constraints, purchased_items, catalog_map):
-    """Apply DDM enforcement post-hoc on purchased items."""
-    if not purchased_items:
-        return None, []
+def ddm_enforce(constraints, purchased_items, catalog_map,
+                resolution_policy=None, catalog=None):
+    """Apply DDM enforcement on agent's purchased items.
 
+    Shared entry point for all probe scripts. The DDM flow is:
+    1. Generate mandate from constraints + resolution_policy
+    2. Build purchase_request from agent's purchased_items
+    3. Enforce mandate against purchase_request (with catalog for relax RP)
+
+    Args:
+        constraints: scenario constraint dict
+        purchased_items: agent's purchase list [{"product_id": ..., "quantity": ...}, ...]
+        catalog_map: {product_id: catalog_entry} for enriching agent items
+        resolution_policy: RP dict (default: fail_closed). See data/policies/
+        catalog: full catalog list (required for relax RP)
+
+    Returns:
+        EnforcementResult from ddm.enforce()
+    """
     ddm = DDM(principal="experiment_user")
-    mandate = ddm.generate_mandate(constraints)
+    mandate = ddm.generate_mandate(constraints, resolution_policy=resolution_policy)
+
+    if not purchased_items:
+        # No agent proposal — enforce with empty items
+        # For relax RP, this triggers resolution from catalog
+        result = ddm.enforce(mandate, {"items": []}, catalog=catalog)
+        return result
 
     items = []
     for item in purchased_items:
@@ -229,8 +249,8 @@ def ddm_enforce(constraints, purchased_items, catalog_map):
                 "rating": 0.0,
             })
 
-    result = ddm.enforce(mandate, {"items": items})
-    return result.allowed, result.violations
+    result = ddm.enforce(mandate, {"items": items}, catalog=catalog)
+    return result
 
 
 # === Shared data ===

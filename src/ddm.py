@@ -3,12 +3,13 @@
 Core contribution of the paper. Treats delegation mandates as deterministic
 function outputs rather than static tokens.
 
-M = f(u, cap, r, ctx, p_v)
+M = f(u, cap, r, ctx, p_v, rp)
   u    = Principal (delegating user)
   cap  = Capability class
   r    = Target resource scope
   ctx  = Observable context
   p_v  = Versioned policy
+  rp   = Resolution policy
 
 Properties:
   1. Reproducibility: same inputs → same mandate
@@ -32,6 +33,7 @@ class MandateInputs:
     resource_scope: dict    # r: constraints on target resources
     context: dict           # ctx: observable context (e.g., timestamp, session)
     policy_version: str     # p_v: version-pinned policy identifier
+    resolution_policy: dict # rp: resolution policy (see data/policies/)
 
 
 @dataclass(frozen=True)
@@ -40,6 +42,7 @@ class Mandate:
     mandate_hash: str       # deterministic hash of inputs
     inputs: MandateInputs
     constraints: dict       # compiled constraints for enforcement
+    resolution_policy: dict # rp: resolution policy for this mandate
     issued_at: float        # timestamp
     expires_at: float       # TTL
     generation_latency_ms: float
@@ -47,10 +50,17 @@ class Mandate:
 
 @dataclass
 class EnforcementResult:
-    """Result of checking an execution request against a mandate."""
+    """Result of the Compliance Gate checking an execution request against a mandate.
+
+    The Compliance Gate validates the agent's proposed action, then applies
+    the mandate's Resolution Policy if constraints are violated.
+    """
     allowed: bool
     mandate_hash: str
-    violations: list[str]
+    violations: list[str]       # constraint violations detected
+    resolution_action: str      # "allow", "block", or "substitute"
+    selected_item: Optional[dict]  # DDM-selected item (for substitute)
+    relaxed_constraints: list[str] # constraints relaxed (for substitute)
     checked_at: float
     check_latency_ms: float
     request_summary: dict
@@ -65,33 +75,47 @@ class AuditRecord:
     reproduction_hash: Optional[str]  # hash from re-generation
 
 
-@dataclass
-class ResolutionResult:
-    """Result of applying a Resolution Policy to a constraint conflict."""
-    action: str             # "allow", "block", "substitute"
-    selected_item: Optional[dict]  # DDM-selected item (None if block)
-    relaxed_constraints: list[str]  # constraint names that were relaxed
-    original_violations: list[str]  # violations detected by enforce()
-    resolution_policy: str  # policy name that was applied
-    satisfiable: bool       # whether original constraints were satisfiable
-
-
 class DDM:
-    """Deterministic Delegation Model — mandate generation and enforcement."""
+    """Deterministic Delegation Model — mandate generation and enforcement.
+
+    Usage:
+        ddm = DDM(principal="user")
+        mandate = ddm.generate_mandate(constraints, resolution_policy)
+        result = ddm.enforce(mandate, purchase_request, catalog)
+
+    The enforce() method is the single entry point for the Compliance Gate.
+    It checks the agent's proposed action against the mandate's constraints,
+    then applies the mandate's Resolution Policy to determine the outcome.
+    """
 
     POLICY_VERSION = "v1.0.0"  # fixed for this experiment
     MANDATE_TTL_SECONDS = 300  # 5 minutes
+
+    # Default resolution policy: fail_closed
+    DEFAULT_RESOLUTION_POLICY = {"type": "fail_closed"}
 
     def __init__(self, principal: str = "experiment_user"):
         self.principal = principal
         self.audit_log: list[AuditRecord] = []
 
-    def generate_mandate(self, scenario_constraints: dict) -> Mandate:
+    def generate_mandate(
+        self,
+        scenario_constraints: dict,
+        resolution_policy: Optional[dict] = None,
+    ) -> Mandate:
         """Generate a mandate deterministically from scenario constraints.
 
-        This is the core DDM function: M = f(u, cap, r, ctx, p_v)
+        This is the core DDM function: M = f(u, cap, r, ctx, p_v, rp)
         Same inputs always produce the same mandate (except timestamps).
+
+        Args:
+            scenario_constraints: constraint definitions for enforcement
+            resolution_policy: Resolution Policy dict (see data/policies/).
+                Defaults to fail_closed if not specified.
         """
+        if resolution_policy is None:
+            resolution_policy = self.DEFAULT_RESOLUTION_POLICY
+
         start = time.monotonic()
         now = time.time()
 
@@ -101,6 +125,7 @@ class DDM:
             resource_scope=self._compile_resource_scope(scenario_constraints),
             context={"generated_at_epoch": now},
             policy_version=self.POLICY_VERSION,
+            resolution_policy=resolution_policy,
         )
 
         # Compile enforcement constraints from inputs
@@ -113,6 +138,7 @@ class DDM:
             "resource_scope": inputs.resource_scope,
             "policy_version": inputs.policy_version,
             "constraints": constraints,
+            "resolution_policy": resolution_policy,
         }
         mandate_hash = hashlib.sha256(
             json.dumps(hash_input, sort_keys=True, ensure_ascii=False).encode()
@@ -124,157 +150,222 @@ class DDM:
             mandate_hash=mandate_hash,
             inputs=inputs,
             constraints=constraints,
+            resolution_policy=resolution_policy,
             issued_at=now,
             expires_at=now + self.MANDATE_TTL_SECONDS,
             generation_latency_ms=elapsed,
         )
 
-    def enforce(self, mandate: Mandate, purchase_request: dict) -> EnforcementResult:
-        """Check a purchase request against a mandate. Fail-closed.
+    def enforce(
+        self,
+        mandate: Mandate,
+        purchase_request: dict,
+        catalog: Optional[list[dict]] = None,
+    ) -> EnforcementResult:
+        """Compliance Gate: validate a purchase request against a mandate.
 
-        purchase_request = {
-            "items": [{"product_id": str, "quantity": int, "price": int,
-                        "brand": str, "category": str, "rating": float}, ...]
-        }
+        This is the single entry point for DDM enforcement. It:
+        1. Checks mandate expiry
+        2. Checks the agent's proposed action against mandate constraints
+        3. If no violations, allows the action
+        4. If violations exist, delegates to _resolve which applies the
+           mandate's Resolution Policy (enforce does not inspect RP type)
+
+        Args:
+            mandate: the delegation mandate
+            purchase_request: agent's proposed action
+                {"items": [{"product_id": str, "quantity": int, "price": int,
+                            "brand": str, "category": str, "rating": float}, ...]}
+            catalog: product catalog (passed to _resolve for relax policies)
         """
         start = time.monotonic()
-        violations = []
         items = purchase_request.get("items", [])
-        constraints = mandate.constraints
 
-        # Check expiry (fail-closed)
+        # Step 1: Check expiry
         if time.time() > mandate.expires_at:
-            violations.append("MANDATE_EXPIRED")
-            elapsed = (time.monotonic() - start) * 1000
-            result = EnforcementResult(
-                allowed=False, mandate_hash=mandate.mandate_hash,
-                violations=violations, checked_at=time.time(),
-                check_latency_ms=elapsed, request_summary=purchase_request,
-            )
-            self._record_audit(mandate, result)
-            return result
-
-        # Check category constraint
-        if "category" in constraints:
-            for item in items:
-                if item.get("category", "").lower() != constraints["category"].lower():
-                    violations.append(
-                        f"CATEGORY_VIOLATION: {item.get('product_id')} "
-                        f"is '{item.get('category')}', expected '{constraints['category']}'"
-                    )
-
-        # Check brand whitelist
-        if "brand_whitelist" in constraints:
-            allowed_brands = [b.lower() for b in constraints["brand_whitelist"]]
-            for item in items:
-                if item.get("brand", "").lower() not in allowed_brands:
-                    violations.append(
-                        f"BRAND_VIOLATION: {item.get('product_id')} "
-                        f"brand '{item.get('brand')}' not in {constraints['brand_whitelist']}"
-                    )
-
-        # Check budget constraint
-        if "max_budget" in constraints:
-            total_price = sum(
-                item.get("price", 0) * item.get("quantity", 1) for item in items
-            )
-            if total_price > constraints["max_budget"]:
-                violations.append(
-                    f"BUDGET_VIOLATION: total {total_price} USD "
-                    f"exceeds limit {constraints['max_budget']} USD"
-                )
-
-        # Check quantity constraints
-        total_qty = sum(item.get("quantity", 1) for item in items)
-        if "max_quantity" in constraints and total_qty > constraints["max_quantity"]:
-            violations.append(
-                f"QUANTITY_VIOLATION: total quantity {total_qty} "
-                f"exceeds max {constraints['max_quantity']}"
-            )
-        if "exact_quantity" in constraints and total_qty != constraints["exact_quantity"]:
-            violations.append(
-                f"QUANTITY_VIOLATION: total quantity {total_qty} "
-                f"!= required {constraints['exact_quantity']}"
+            return self._make_result(
+                start, mandate, purchase_request,
+                allowed=False, violations=["MANDATE_EXPIRED"],
+                resolution_action="block",
             )
 
-        # Check rating constraint
-        if "min_rating" in constraints:
-            for item in items:
-                if item.get("rating", 0) < constraints["min_rating"]:
-                    violations.append(
-                        f"RATING_VIOLATION: {item.get('product_id')} "
-                        f"rating {item.get('rating')} < min {constraints['min_rating']}"
-                    )
+        # Step 2: Check constraints
+        violations = self._check_constraints(mandate.constraints, items)
 
-        # Check optimization (if required, verify it's the optimal choice)
-        if "optimization" in constraints and constraints["optimization"] == "min_price":
-            # This is checked post-hoc in the evaluator, not blocked here
-            # DDM enforces hard constraints; optimization is a soft preference
-            pass
+        # Step 3: No violations — allow
+        if not violations:
+            return self._make_result(
+                start, mandate, purchase_request,
+                allowed=True, violations=[],
+                resolution_action="allow",
+            )
 
+        # Step 4: Violations — delegate to Resolution Policy
+        resolution = self._resolve(mandate.resolution_policy, mandate.constraints, catalog)
+        return self._make_result(
+            start, mandate, purchase_request,
+            allowed=resolution["action"] != "block",
+            violations=violations,
+            resolution_action=resolution["action"],
+            selected_item=resolution.get("selected_item"),
+            relaxed_constraints=resolution.get("relaxed_constraints", []),
+        )
+
+    def _make_result(
+        self, start: float, mandate: Mandate, purchase_request: dict, *,
+        allowed: bool, violations: list[str], resolution_action: str,
+        selected_item: Optional[dict] = None,
+        relaxed_constraints: Optional[list[str]] = None,
+    ) -> EnforcementResult:
+        """Build an EnforcementResult and record the audit entry."""
         elapsed = (time.monotonic() - start) * 1000
         result = EnforcementResult(
-            allowed=len(violations) == 0,
-            mandate_hash=mandate.mandate_hash,
+            allowed=allowed, mandate_hash=mandate.mandate_hash,
             violations=violations,
-            checked_at=time.time(),
-            check_latency_ms=elapsed,
+            resolution_action=resolution_action,
+            selected_item=selected_item,
+            relaxed_constraints=relaxed_constraints or [],
+            checked_at=time.time(), check_latency_ms=elapsed,
             request_summary=purchase_request,
         )
         self._record_audit(mandate, result)
         return result
 
-    def resolve(
-        self,
-        constraints: dict,
-        catalog: list[dict],
-        resolution_policy: str = "fail_closed",
-    ) -> ResolutionResult:
-        """Apply a Resolution Policy to determine a deterministic outcome.
+    # ------------------------------------------------------------------
+    # Internal methods
+    # ------------------------------------------------------------------
 
-        Given constraints and a catalog, compute whether the constraints are
-        satisfiable. If not, apply the specified resolution policy:
+    # Declarative constraint rules. Each rule maps a constraint key to
+    # its checking behavior. The _check_constraints method iterates this
+    # table instead of hardcoding per-key logic.
+    CONSTRAINT_RULES = [
+        # per-item checks
+        {"key": "category",       "field": "category", "op": "eq", "scope": "item",
+         "case_insensitive": True, "default": "",
+         "label": "CATEGORY_VIOLATION",
+         "msg": "{pid} is '{actual}', expected '{expected}'"},
+        {"key": "brand_whitelist", "field": "brand",   "op": "in", "scope": "item",
+         "case_insensitive": True, "default": "",
+         "label": "BRAND_VIOLATION",
+         "msg": "{pid} brand '{actual}' not in {expected}"},
+        {"key": "min_rating",     "field": "rating",   "op": "ge", "scope": "item",
+         "default": 0,
+         "label": "RATING_VIOLATION",
+         "msg": "{pid} rating {actual} < min {expected}"},
+        # aggregate checks
+        {"key": "max_budget",     "field": "price",    "op": "le", "scope": "sum",
+         "weight": "quantity", "default": 0,
+         "label": "BUDGET_VIOLATION",
+         "msg": "total {actual} USD exceeds limit {expected} USD"},
+        {"key": "max_quantity",   "field": "quantity",  "op": "le", "scope": "sum",
+         "default": 1,
+         "label": "QUANTITY_VIOLATION",
+         "msg": "total quantity {actual} exceeds max {expected}"},
+        {"key": "exact_quantity", "field": "quantity",  "op": "eq", "scope": "sum",
+         "default": 1,
+         "label": "QUANTITY_VIOLATION",
+         "msg": "total quantity {actual} != required {expected}"},
+    ]
 
-        - fail_closed: block (no purchase)
-        - priority_budget: relax lowest-priority constraints to satisfy budget first
-        - priority_brand: relax lowest-priority constraints to satisfy brand first
+    # Comparison operators: returns True when constraint is SATISFIED
+    _OPS = {
+        "eq": lambda actual, expected: actual == expected,
+        "in": lambda actual, expected: actual in expected,
+        "ge": lambda actual, expected: actual >= expected,
+        "le": lambda actual, expected: actual <= expected,
+    }
 
-        For priority_* policies, constraints are relaxed from lowest priority
-        upward, and the cheapest satisfying item is selected.
+    def _check_constraints(self, constraints: dict, items: list[dict]) -> list[str]:
+        """Check all constraints against proposed items. Returns violation list.
 
-        Returns a ResolutionResult with the deterministic outcome.
+        Iterates CONSTRAINT_RULES declaratively. Each rule specifies a
+        constraint key, the item field to check, a comparison operator,
+        and whether to check per-item or as an aggregate sum.
         """
-        # Step 1: Find items satisfying ALL constraints
-        satisfying = self._find_satisfying(catalog, constraints)
+        violations = []
 
-        if satisfying:
-            # No conflict — pick cheapest among fully satisfying items
-            best = min(satisfying, key=lambda p: p["price"])
-            return ResolutionResult(
-                action="allow",
-                selected_item=best,
-                relaxed_constraints=[],
-                original_violations=[],
-                resolution_policy=resolution_policy,
-                satisfiable=True,
-            )
+        for rule in self.CONSTRAINT_RULES:
+            key = rule["key"]
+            if key not in constraints:
+                continue
 
-        # Step 2: Constraints are unsatisfiable — determine violations
-        violations = self._detect_violation_types(catalog, constraints)
+            expected = constraints[key]
+            op_fn = self._OPS[rule["op"]]
+            field = rule["field"]
+            default = rule.get("default", 0)
+            ci = rule.get("case_insensitive", False)
 
-        if resolution_policy == "fail_closed":
-            return ResolutionResult(
-                action="block",
-                selected_item=None,
-                relaxed_constraints=[],
-                original_violations=violations,
-                resolution_policy="fail_closed",
-                satisfiable=False,
-            )
+            if ci and rule["op"] != "in":
+                expected = expected.lower() if isinstance(expected, str) else expected
 
-        # Step 3: Priority-based relaxation
-        priority_order = self._parse_priorities(resolution_policy, constraints)
-        # Relax from lowest priority (end of list) upward
+            if rule["scope"] == "item":
+                # Per-item: check each item individually
+                if ci and rule["op"] == "in":
+                    expected_normalized = [v.lower() for v in expected]
+                else:
+                    expected_normalized = expected
+
+                for item in items:
+                    actual = item.get(field, default)
+                    actual_cmp = actual.lower() if ci and isinstance(actual, str) else actual
+
+                    if not op_fn(actual_cmp, expected_normalized if rule["op"] == "in" else expected):
+                        msg = self._format_violation(rule, item.get("product_id", ""), actual, expected)
+                        violations.append(msg)
+
+            elif rule["scope"] == "sum":
+                # Aggregate: sum across all items, optionally weighted
+                weight_field = rule.get("weight")
+                if weight_field:
+                    actual = sum(item.get(field, default) * item.get(weight_field, 1) for item in items)
+                else:
+                    actual = sum(item.get(field, default) for item in items)
+
+                if not op_fn(actual, expected):
+                    msg = self._format_violation(rule, "", actual, expected)
+                    violations.append(msg)
+
+        return violations
+
+    @staticmethod
+    def _format_violation(rule: dict, pid: str, actual, expected) -> str:
+        """Format a violation message from a rule template.
+
+        Uses safe formatting: only placeholders present in the template
+        are substituted. Extra kwargs are silently ignored.
+        """
+        import string
+        template = f"{rule['label']}: {rule['msg']}"
+        formatter = string.Formatter()
+        used_keys = {f for _, f, _, _ in formatter.parse(template) if f}
+        kwargs = {"pid": pid, "actual": actual, "expected": expected}
+        return template.format(**{k: v for k, v in kwargs.items() if k in used_keys})
+
+    def _resolve(
+        self,
+        resolution_policy: dict,
+        constraints: dict,
+        catalog: Optional[list[dict]],
+    ) -> dict:
+        """Apply Resolution Policy to determine the outcome when constraints
+        are violated.
+
+        This method owns all RP-type-specific logic. The caller (enforce)
+        does not inspect the RP type.
+
+        Returns dict with keys: action, selected_item, relaxed_constraints.
+        """
+        policy_type = resolution_policy.get("type", "fail_closed")
+
+        if policy_type == "fail_closed":
+            return {"action": "block", "selected_item": None, "relaxed_constraints": []}
+
+        # All non-fail_closed policies require a catalog
+        if catalog is None:
+            return {"action": "block", "selected_item": None, "relaxed_constraints": []}
+
+        # relax — lexicographic priority-based relaxation
+        priority_order = resolution_policy.get("priority", [])
         relaxed = []
         current_constraints = dict(constraints)
 
@@ -287,24 +378,10 @@ class DDM:
             candidates = self._find_satisfying(catalog, current_constraints)
             if candidates:
                 best = min(candidates, key=lambda p: p["price"])
-                return ResolutionResult(
-                    action="substitute",
-                    selected_item=best,
-                    relaxed_constraints=relaxed,
-                    original_violations=violations,
-                    resolution_policy=resolution_policy,
-                    satisfiable=False,
-                )
+                return {"action": "substitute", "selected_item": best, "relaxed_constraints": relaxed}
 
-        # Could not satisfy even after relaxing all non-priority constraints
-        return ResolutionResult(
-            action="block",
-            selected_item=None,
-            relaxed_constraints=relaxed,
-            original_violations=violations,
-            resolution_policy=resolution_policy,
-            satisfiable=False,
-        )
+        # Could not satisfy even after relaxing all
+        return {"action": "block", "selected_item": None, "relaxed_constraints": relaxed}
 
     def _find_satisfying(self, catalog: list[dict], constraints: dict) -> list[dict]:
         """Return catalog items that satisfy all given constraints."""
@@ -325,8 +402,6 @@ class DDM:
             if "min_rating" in constraints:
                 if item.get("rating", 0) < constraints["min_rating"]:
                     continue
-            if "max_quantity" in constraints:
-                pass  # single-item check; quantity is always 1 in this context
             results.append(item)
         return results
 
@@ -348,36 +423,30 @@ class DDM:
                 violations.append(label)
         return violations
 
-    @staticmethod
-    def _parse_priorities(policy: str, constraints: dict) -> list[str]:
-        """Parse a resolution policy into a priority-ordered constraint list.
-
-        Returns constraints ordered from highest to lowest priority.
-        The resolve() method relaxes from the END (lowest priority) first.
-        """
-        # Map policy names to priority orderings
-        # The first element is the highest priority (protected last)
-        orderings = {
-            "priority_budget": ["max_budget", "brand_whitelist", "min_rating", "category"],
-            "priority_brand": ["brand_whitelist", "max_budget", "min_rating", "category"],
-            "priority_brand_rating": ["brand_whitelist", "min_rating", "max_budget", "category"],
-        }
-        if policy in orderings:
-            return orderings[policy]
-        raise ValueError(f"Unknown resolution policy: {policy}")
-
     def verify_reproducibility(self, mandate: Mandate) -> tuple[bool, str]:
         """Re-generate mandate from stored inputs and verify hash matches.
 
-        This is the key DDM property: any third party can reproduce the mandate.
+        This is the key DDM property: any third party can reproduce the
+        mandate from its stored inputs using the current DDM implementation.
+
+        Note on mandate_hash values in results/:
+        Results in results/probe_*.json were generated with a prior DDM
+        implementation (before resolution_policy was incorporated into
+        the hash per M = f(u, cap, r, ctx, p_v, rp) in paper Section 4).
+        Those stored hashes reflect the code version at the time of the
+        paper's experiments. The paper's empirical claims (R1-R7) depend
+        on structural properties of DDM (determinism, non-bypassability,
+        prompt-independence), not on specific hash values. To reproduce
+        the paper's hash values, check out the git tag
+        `paper-experiments-as-run`.
         """
-        # Reconstruct from the same inputs (excluding context timestamp)
         hash_input = {
             "principal": mandate.inputs.principal,
             "capability": mandate.inputs.capability,
             "resource_scope": mandate.inputs.resource_scope,
             "policy_version": mandate.inputs.policy_version,
             "constraints": mandate.constraints,
+            "resolution_policy": mandate.resolution_policy,
         }
         reproduced_hash = hashlib.sha256(
             json.dumps(hash_input, sort_keys=True, ensure_ascii=False).encode()
@@ -418,6 +487,7 @@ class DDM:
                 "principal": mandate.inputs.principal,
                 "capability": mandate.inputs.capability,
                 "constraints": mandate.constraints,
+                "resolution_policy": mandate.resolution_policy,
                 "issued_at": mandate.issued_at,
                 "expires_at": mandate.expires_at,
             },

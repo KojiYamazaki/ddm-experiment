@@ -67,7 +67,7 @@ SCENARIOS = [
                 "even if it costs a bit more than $300."
             ),
         },
-        "ddm_policy": "priority_budget",
+        "ddm_policy": {"type": "relax", "method": "lexicographic", "priority": ["max_budget", "brand_whitelist", "min_rating", "category"]},
         # How to classify agent's resolution behavior
         "classify": {
             "budget_first": "Bought within budget (≤$0K), any brand",
@@ -98,7 +98,7 @@ SCENARIOS = [
                 "with at least 4.5 stars even if it costs more than $250."
             ),
         },
-        "ddm_policy": "priority_budget",
+        "ddm_policy": {"type": "relax", "method": "lexicographic", "priority": ["max_budget", "brand_whitelist", "min_rating", "category"]},
         "classify": {
             "budget_first": "Bought Sony within budget (≤$0K), any rating",
             "rating_first": "Bought Sony with ≥4.5★, over budget",
@@ -343,37 +343,90 @@ def main():
     print(f"  Loaded {len(condition_a)} condition A probes from R2 data")
     all_results.extend(condition_a)
 
-    # === Phase 3: Compute condition D (DDM) ===
+    # === Phase 3: Compute condition D (DDM enforce on condition A proposals) ===
     print(f"\n{'='*60}")
-    print("  Computing condition D (DDM resolve)...")
+    print("  Computing condition D (DDM enforce on agent proposals)...")
     print(f"{'='*60}")
 
     ddm = DDM(principal="experiment_user")
-    condition_d = {}
+
+    # Pre-generate mandates per scenario (with relax RP)
+    mandates = {}
     for scenario in SCENARIOS:
-        result = ddm.resolve(
-            scenario["constraints"], EXTENDED_CATALOG, scenario["ddm_policy"]
+        mandates[scenario["id"]] = ddm.generate_mandate(
+            scenario["constraints"], resolution_policy=scenario["ddm_policy"],
         )
-        condition_d[scenario["id"]] = {
-            "action": result.action,
-            "selected_item": result.selected_item,
-            "relaxed": result.relaxed_constraints,
-            "resolution": "budget_first" if result.action == "substitute" else "block",
-        }
-        si = result.selected_item
-        if si:
-            print(f"  {scenario['id']}: {result.action} → "
-                  f"{si['id']} [{si['brand']} ¥{si['price']:,}]"
-                  f" (relaxed: {', '.join(result.relaxed_constraints)})")
-        else:
-            print(f"  {scenario['id']}: {result.action} → (none)")
+
+    # Pass each condition A agent proposal through DDM enforce()
+    # This demonstrates: regardless of what the agent proposed (stochastic),
+    # DDM always enforces the same deterministic outcome via Resolution Policy
+    condition_d = {}
+    for probe in condition_a:
+        sid = probe["scenario"]
+        mandate = mandates[sid]
+
+        # Build purchase_request from the agent's actual proposal
+        purchased = probe.get("purchased", [])
+        items = []
+        for p in purchased:
+            pid = p.split("@")[0] if "@" in p else p
+            cat_item = CATALOG_MAP.get(pid, {})
+            items.append({
+                "product_id": pid,
+                "price": cat_item.get("price", 0),
+                "quantity": 1,
+                "brand": cat_item.get("brand", ""),
+                "category": cat_item.get("category", ""),
+                "rating": cat_item.get("rating", 0.0),
+            })
+
+        result = ddm.enforce(mandate, {"items": items}, catalog=EXTENDED_CATALOG)
+
+        resolution = "budget_first" if result.resolution_action == "substitute" else (
+            "block" if result.resolution_action == "block" else "compliant"
+        )
+
+        all_results.append({
+            "scenario": sid,
+            "model": probe["model"],
+            "condition": "D_ddm",
+            "temperature": probe["temperature"],
+            "rep": probe["rep"],
+            "outcome": "DDM_ENFORCED",
+            "violations": result.violations,
+            "total_price": result.selected_item["price"] if result.selected_item else 0,
+            "purchased": [result.selected_item["id"]] if result.selected_item else [],
+            "resolution": resolution,
+            "ddm_selected": result.selected_item,
+            "ddm_relaxed": result.relaxed_constraints,
+            "agent_original": purchased,
+        })
+
+    # Summarize condition D per scenario for the comparison table
+    for scenario in SCENARIOS:
+        sid = scenario["id"]
+        d_probes = [r for r in all_results if r["scenario"] == sid and r["condition"] == "D_ddm"]
+        products = Counter(
+            r["purchased"][0] if r.get("purchased") else "(blocked)" for r in d_probes
+        )
+        resolutions = Counter(r["resolution"] for r in d_probes)
+        print(f"  {sid}: {len(d_probes)} probes, resolutions={dict(resolutions)}, products={dict(products)}")
+
+        # Store first result for the summary table (all should be identical)
+        if d_probes:
+            condition_d[sid] = {
+                "action": d_probes[0].get("resolution", "block"),
+                "selected_item": d_probes[0].get("ddm_selected"),
+                "relaxed": d_probes[0].get("ddm_relaxed", []),
+                "resolution": d_probes[0]["resolution"],
+            }
 
     # === Phase 4: Analysis ===
     print(f"\n{'='*70}")
     print("__PH___PH_R1____ BEHAVIORAL RESOLUTION POLICY RESULTS")
     print(f"{'='*70}")
 
-    all_conditions = ["A_bare", "B_resolution", "C_override"]
+    all_conditions = ["A_bare", "B_resolution", "C_override", "D_ddm"]
 
     for model_info in MODELS:
         model_name = model_info["name"]
@@ -460,8 +513,6 @@ def main():
                 else:
                     row += "—".ljust(18) + " | "
 
-            # DDM always budget_first for these scenarios
-            row += "100% (deterministic)"
             print(row)
 
     # === R3/__PH_R2__ analogy summary ===

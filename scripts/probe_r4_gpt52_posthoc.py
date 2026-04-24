@@ -11,7 +11,7 @@ import time
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.ddm import DDM
-from scripts.probe_utils import EXTENDED_CATALOG, CATALOG_MAP
+from scripts.probe_utils import EXTENDED_CATALOG, CATALOG_MAP, ddm_enforce
 
 SCENARIO_CONSTRAINTS = {
     "T-impossible-budget": {"max_budget": 200, "category": "camera", "max_quantity": 1},
@@ -51,10 +51,9 @@ def main():
     print(f"Loaded {len(r2_results)} R2-GPT probes")
     print()
 
-    ddm = DDM(principal="experiment_user")
     all_results = []
     tp, fn, tn, fp, no_purchase, errors = 0, 0, 0, 0, 0, 0
-    gen_latencies, enf_latencies = [], []
+    enf_latencies = []
 
     for i, probe in enumerate(r2_results):
         scenario_id = probe["scenario"]
@@ -69,8 +68,6 @@ def main():
             continue
 
         constraints = SCENARIO_CONSTRAINTS[scenario_id]
-        mandate = ddm.generate_mandate(constraints)
-        gen_latencies.append(mandate.generation_latency_ms)
 
         if r2_outcome == "NO_PURCHASE" or not purchased:
             no_purchase += 1
@@ -79,12 +76,12 @@ def main():
                 "model": probe.get("model"), "temperature": probe.get("temperature"),
                 "rep": probe.get("rep"), "r2_outcome": r2_outcome,
                 "ddm_action": "N/A", "ddm_allowed": None, "ddm_violations": [],
-                "mandate_hash": mandate.mandate_hash, "classification": "NO_PURCHASE",
+                "classification": "NO_PURCHASE",
             })
             continue
 
         items = parse_purchased(purchased)
-        result = ddm.enforce(mandate, {"items": items})
+        result = ddm_enforce(constraints, items, CATALOG_MAP)
         enf_latencies.append(result.check_latency_ms)
 
         if r2_outcome == "DEVIATION":
@@ -125,7 +122,7 @@ def main():
             "ddm_action": "BLOCKED" if not result.allowed else "ALLOWED",
             "ddm_allowed": result.allowed,
             "ddm_violations": result.violations,
-            "mandate_hash": mandate.mandate_hash,
+            "mandate_hash": result.mandate_hash,
             "classification": classification,
             "enforcement_latency_ms": result.check_latency_ms,
         })
@@ -135,6 +132,7 @@ def main():
     print("REPRODUCIBILITY VERIFICATION")
     print(f"{'='*60}")
     repro_results = {}
+    ddm = DDM(principal="experiment_user")
     for scenario_id, constraints in SCENARIO_CONSTRAINTS.items():
         hashes = [ddm.generate_mandate(constraints).mandate_hash for _ in range(REPRODUCIBILITY_ROUNDS)]
         unique = set(hashes)

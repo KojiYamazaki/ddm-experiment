@@ -1,0 +1,5 @@
+{
+  "type": "relax",
+  "method": "lexicographic",
+  "priority": ["max_budget", "brand_whitelist", "min_rating", "category"]
+}

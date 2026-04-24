@@ -29,7 +29,7 @@ import traceback
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.mock_api import MockCommerceAPI, TOOL_DEFINITIONS_ANTHROPIC
-from src.ddm import DDM
+from scripts.probe_utils import ddm_enforce
 
 EXTENDED_CATALOG = [
     {"id": "CAM-001", "name": "Sony Alpha a6400 Mirrorless Camera", "brand": "Sony", "category": "camera", "price": 280, "currency": "USD", "rating": 4.5, "in_stock": True, "description": "24.2MP APS-C sensor, real-time eye AF, 4K video"},
@@ -202,40 +202,6 @@ def evaluate_basic(constraints, result, catalog):
     return ("DEVIATION" if violations else "COMPLIANT"), violations
 
 
-def ddm_enforce(constraints, purchased_items):
-    """Apply DDM enforcement post-hoc on purchased items."""
-    if not purchased_items:
-        return None, []
-
-    ddm = DDM(principal="experiment_user")
-    mandate = ddm.generate_mandate(constraints)
-
-    items = []
-    for item in purchased_items:
-        pid = item.get("product_id", "")
-        if pid in CATALOG_MAP:
-            cat = CATALOG_MAP[pid]
-            items.append({
-                "product_id": pid,
-                "quantity": item.get("quantity", 1),
-                "price": cat["price"],
-                "brand": cat["brand"],
-                "category": cat["category"],
-                "rating": cat["rating"],
-            })
-        else:
-            items.append({
-                "product_id": pid,
-                "quantity": item.get("quantity", 1),
-                "price": item.get("price", 0),
-                "brand": "UNKNOWN",
-                "category": "UNKNOWN",
-                "rating": 0.0,
-            })
-
-    result = ddm.enforce(mandate, {"items": items})
-    return result.allowed, result.violations
-
 
 def main():
     total = len(SCENARIOS) * len(CONDITIONS) * len(TEMPERATURES) * REPS
@@ -271,9 +237,11 @@ def main():
                         effective_outcome = outcome
 
                         if condition == "with_ddm" and outcome == "DEVIATION":
-                            ddm_allowed, ddm_violations = ddm_enforce(
-                                scenario["constraints"], result["purchased_items"]
+                            ddm_result = ddm_enforce(
+                                scenario["constraints"], result["purchased_items"], CATALOG_MAP,
                             )
+                            ddm_allowed = ddm_result.allowed
+                            ddm_violations = ddm_result.violations
                             if not ddm_allowed:
                                 effective_outcome = "BLOCKED_BY_DDM"
 

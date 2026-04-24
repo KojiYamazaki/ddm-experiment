@@ -99,9 +99,11 @@ def main():
                         effective_outcome = outcome
 
                         if condition == "with_ddm" and outcome == "DEVIATION":
-                            ddm_allowed, ddm_violations = ddm_enforce(
+                            ddm_result = ddm_enforce(
                                 scenario["constraints"], result["purchased_items"], CATALOG_MAP,
                             )
+                            ddm_allowed = ddm_result.allowed
+                            ddm_violations = ddm_result.violations
                             if not ddm_allowed:
                                 effective_outcome = "BLOCKED_BY_DDM"
 
