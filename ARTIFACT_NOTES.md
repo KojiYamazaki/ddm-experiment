@@ -3,25 +3,26 @@
 This artifact corresponds to the ACM CAIS 2026 paper "Who Decides the
 Trade-off? Resolution Policy as Delegation Governance in Autonomous Agents."
 
-## Versioning
+## Reproducibility note
 
-This repository provides two tagged versions:
+The mandate_hash values in `results/probe_*.json` were generated with
+an earlier version of the DDM hash function that did not include the
+Resolution Policy as an input.
 
-- **`paper-experiments-as-run`** — the code version consistent with the
-  `mandate_hash` values stored in `results/probe_*.json`.
-- **`v1.0.1`** — the submission version. Mandate hash is computed following
-  the formal definition M = f(u, cap, r, ctx, p_v, rp) in paper Section 4,
-  which makes the Resolution Policy an explicit input.
+The current code computes the mandate hash following the formal
+definition M = f(u, cap, r, ctx, p_v, rp) (paper Section 4), which
+includes the Resolution Policy. Re-running probes therefore produces
+different mandate_hash values but identical DDM decisions (same products
+selected, same violations detected).
 
-All DDM decisions (products selected, violations detected) are identical
-between the two tags; the distinction is limited to hash input composition.
+LLM agent responses are stochastic (R2 explicitly studies this
+phenomenon); aggregate statistics across re-runs are expected to
+vary within sampling noise.
 
 ## Pre-computed results
 
 `results/probe_r*_results.json` files contain complete probe data for each
-round. The `mandate_hash` values in these files correspond to the
-`paper-experiments-as-run` tag. Running probes with `v1.0.1` produces
-identical DDM decisions with different hash values.
+round.
 
 ## Reproducing the paper
 
@@ -36,8 +37,6 @@ python scripts/probe_r4_ddm_posthoc.py     # example probe (requires API keys)
 For the **Reproduced** badge (paper results are re-obtainable):
 - Pre-computed results are in `results/`. Each file maps to a paper round.
 - To re-run probes, execute the corresponding `scripts/probe_r*.py`.
-- To verify hash-level consistency with `results/`, use the
-  `paper-experiments-as-run` tag.
 
 ## Design note on constraint checking
 

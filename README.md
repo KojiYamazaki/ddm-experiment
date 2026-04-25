@@ -181,14 +181,13 @@ This artifact implements the DDM components empirically evaluated in the paper: 
 - Probe results (agent responses, DDM enforcement outcomes, evaluations) preserved in `results/` for reproducibility
 - DDM enforcement is deterministic with no LLM calls; latency is negligible (generation ~0.005ms, enforcement ~0.001ms)
 
-## Versioning and Reproducibility
+## Reproducibility
 
-This repository provides two tagged versions for reviewer reference:
+The mandate_hash values in `results/probe_*.json` were generated with an earlier version of the DDM hash function that did not include the Resolution Policy as a hash input. The current code computes the hash following the formal definition M = f(u, cap, r, ctx, p_v, rp) (paper §4); re-running probes produces different mandate_hash values but identical DDM decisions (same products selected, same violations detected).
 
-- **`paper-experiments-as-run`** — the code version consistent with the `mandate_hash` values stored in `results/`.
-- **`v1.0.1`** — the submission version. Mandate hash is computed following the formal definition M = f(u, cap, r, ctx, p_v, rp) in paper §4, which makes the Resolution Policy an explicit input.
+LLM agent responses are stochastic (R2 explicitly studies this phenomenon); aggregate statistics across re-runs are expected to vary within sampling noise.
 
-All DDM decisions (products selected, violations detected) are identical between the two tags; the distinction is limited to hash input composition. See [ARTIFACT_NOTES.md](ARTIFACT_NOTES.md) for details.
+See [ARTIFACT_NOTES.md](ARTIFACT_NOTES.md) for design notes.
 
 ## License
 
