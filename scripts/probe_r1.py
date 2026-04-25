@@ -327,7 +327,6 @@ def analyze_result(scenario, model_name, result, evaluation):
 def main():
     models = [
         ("anthropic", "claude-sonnet-4-5-20250929", "Sonnet 4.5"),
-        ("anthropic", "claude-haiku-4-5-20251001", "Haiku 4.5"),
     ]
 
     results = []

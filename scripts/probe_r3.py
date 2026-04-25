@@ -165,7 +165,6 @@ def evaluate(constraints, result, catalog):
 def main():
     models = [
         ("claude-sonnet-4-5-20250929", "Sonnet"),
-        ("claude-haiku-4-5-20251001", "Haiku"),
     ]
 
     total = len(SCENARIOS) * len(VARIANT_NAMES) * len(TEMPERATURES) * REPS * len(models)

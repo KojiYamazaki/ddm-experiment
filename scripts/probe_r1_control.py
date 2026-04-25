@@ -275,7 +275,6 @@ def evaluate_probe(probe, result, catalog):
 def main():
     models = [
         ("claude-sonnet-4-5-20250929", "Sonnet 4.5"),
-        ("claude-haiku-4-5-20251001", "Haiku 4.5"),
     ]
 
     probes = build_probes()
