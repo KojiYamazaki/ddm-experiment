@@ -58,6 +58,24 @@ constraint schemas and compose them with principal intent at mandate-generation
 time. That broader architecture is out of scope for this artifact, which focuses
 on the paper's empirical claims.
 
+## Design note on the Audit Ledger
+
+The DDM class exposes an in-memory audit interface (`_record_audit`,
+`get_audit_log`) that records mandate generation, enforcement decisions,
+and resolution outcomes during a probe execution. The paper (Section 5)
+describes the Audit Ledger as "an append-only, cryptographically chained
+log," and notes that "the experimental prototype implements the
+deterministic mandate function and resolution enforcement---the variables
+under evaluation---but omits cryptographic signing, as structural
+determinism rather than non-repudiation is the property being tested."
+
+Consistent with this scope, the artifact's audit log is not persisted
+to disk and does not implement chaining or cryptographic operations.
+Its purpose is to support inline inspection of DDM decisions during
+probe execution; the empirical claims in Section 6 are validated through
+probe result aggregates in `results/probe_*.json`, not through audit log
+contents.
+
 ## Script-to-paper mapping
 
 | Script | Round | Paper reference |
@@ -68,4 +86,4 @@ on the paper's empirical claims.
 | `probe_r4_ddm_posthoc.py` + `_gpt52` | R4 | Section 6.4: VPR=100%, FRR=0% |
 | `probe_r5_nonbypass.py` + `_gpt52` | R5 | Section 6.3, Table 5: 2x2 prompt x DDM |
 | `probe_r6_injection.py` + `_gpt52` | R6 | Section 6.3, Table 6: 2x2 injection x DDM |
-| `probe_r7_behavioral_resolution.py` | R7 | Section 6.4, Tables 7-8: behavioral resolution |
+| `probe_r7_behavioral_resolution.py` | R7 | Section 6.4, Tables 7-8: behavioral resolution. Table 7 row "A: bare" reuses R2 data (n=100); see README "Paper Reproduction Map" for details. |

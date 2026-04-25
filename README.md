@@ -19,7 +19,7 @@ Through 2,248 experimental probes across two frontier LLMs, we demonstrate that:
 - Anthropic Claude Sonnet 4.5 (primary evaluation model)
 - OpenAI GPT-5.2 (cross-model replication)
 
-Preliminary trials included Claude Haiku 4.5 (708 probes, R1–R4), but Haiku exhibited task-incapacity rather than active deviation, making it unsuitable for studying constraint resolution behavior. All reported analyses use Sonnet and GPT-5.2.
+Preliminary trials included Claude Haiku 4.5 (708 probes, R1–R4), but Haiku exhibited task-incapacity rather than active deviation, making it unsuitable for studying constraint resolution behavior. All reported analyses use Sonnet and GPT-5.2. Probe scripts (R1–R3) run Sonnet only. Haiku results are retained in the pre-computed `results/` files for reference.
 
 ## Experiment Design
 
@@ -159,6 +159,8 @@ All experimental results are included in `results/`. Each `probe_r*_results.json
 | Table 2: Resolution Policy outcomes | §4 | `dry_run.py` (test_resolution_policy) | Verified at runtime |
 | DDM latency (gen ~0.005ms, enf ~0.001ms) | §5 | `dry_run.py`, `probe_r4_ddm_posthoc.py` | `probe_r4_results.json` (enforcement_latency_ms) |
 
+**Note on R7 condition A:** Paper Table 7 row "A: bare" reports values (39%/23%/38% for budget/brand/no-purchase) computed from R2 data (n=100, see `probe_r2_results.json`). The condition A data within `probe_r7_results.json` is a subset (n=25 from a single model × scenario × 5 temps × 5 reps) used internally for R7's behavioral analysis; its percentages will differ from Table 7 due to sampling. To reproduce Table 7 row A, aggregate over `probe_r2_results.json`.
+
 ## Key Parameters
 
 | Parameter | Value |
@@ -176,7 +178,7 @@ This artifact implements the DDM components empirically evaluated in the paper: 
 ## Notes
 
 - **No real transactions** — all purchases go through MockCommerceAPI
-- Full audit trails (prompts, responses, evaluations) preserved for reproducibility
+- Probe results (agent responses, DDM enforcement outcomes, evaluations) preserved in `results/` for reproducibility
 - DDM enforcement is deterministic with no LLM calls; latency is negligible (generation ~0.005ms, enforcement ~0.001ms)
 
 ## Versioning and Reproducibility
