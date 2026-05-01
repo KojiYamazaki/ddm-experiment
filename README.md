@@ -53,19 +53,21 @@ T-brand-near-miss is the primary evaluation condition: it creates a genuine conf
 
 ```
 src/
-  config.py      — Models, paths, experiment parameters (seed=42)
-  ddm.py         — Core DDM: mandate generation (SHA-256), enforcement, audit
-  agent.py       — LLM agents with tool-use
-  mock_api.py    — Mock Commerce API (camera catalog, no real payments)
-  evaluator.py   — Ground-truth constraint compliance checker
+  config.py        — Models, paths, experiment parameters (seed=42)
+  ddm.py           — Core DDM: mandate generation (SHA-256), enforcement, audit
+  agent.py         — LLM agents with tool-use
+  mock_api.py      — Mock Commerce API (camera catalog, no real payments)
+  evaluator.py     — Ground-truth constraint compliance checker
 scripts/
-  dry_run.py     — Validate core logic (MockAPI, DDM, Evaluator) without API calls
-  probe_utils.py — Shared utilities and DDM enforcement wrapper for probe scripts
-  probe_r*.py    — Experiment scripts per round (R1–R7, per model variant)
+  dry_run.py       — Validate core logic (MockAPI, DDM, Evaluator) without API calls
+  verify_claims.py — Replay DDM enforcement on recorded results (no API calls)
+  probe_ollama.py  — Run all rounds against self-hosted models via Ollama
+  probe_utils.py   — Shared utilities and DDM enforcement wrapper for probe scripts
+  probe_r*.py      — Original experiment scripts per round (R1–R7, per model variant)
 data/
-  catalog.json   — Product catalog (10 cameras, USD)
-  policies/      — Resolution Policy definitions (JSON)
-results/         — Pre-computed experiment outputs (JSON per round)
+  catalog.json     — Product catalog (10 cameras, USD)
+  policies/        — Resolution Policy definitions (JSON)
+results/           — Pre-computed experiment outputs (JSON per round)
 ```
 
 ## Resolution Policies
@@ -85,7 +87,6 @@ Schema: `{"type": "fail_closed"}` or `{"type": "relax", "method": "lexicographic
 ### Prerequisites
 
 - Python 3.10+
-- API keys: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`
 
 ### Setup
 
@@ -99,40 +100,79 @@ pip install -r requirements.txt
 python scripts/dry_run.py
 ```
 
-This validates core logic (Mock API, DDM, Evaluator) without API calls.
+This validates core logic (Mock API, DDM, Evaluator, Resolution Policy) without API calls.
 
-### Run Experiments
-
-Each round has its own probe script:
+### Verify Paper Claims
 
 ```bash
-# Example: run R2 (Sonnet)
-python scripts/probe_r2.py
-
-# Example: run R2 (GPT-5.2)
-python scripts/probe_r2_gpt52.py
+python scripts/verify_claims.py
 ```
 
-See `scripts/probe_r*.py` for all rounds. Each script generates its corresponding `results/probe_r*_results.json`.
+Replays DDM enforcement on all recorded agent actions from `results/` and confirms the enforcement outcomes match. No API calls needed.
+
+### Run Experiments with Self-Hosted Model (Ollama)
+
+```bash
+# Install and start Ollama (https://ollama.com)
+ollama serve
+ollama pull qwen2.5:7b
+
+# Run any round (R1–R7)
+python scripts/probe_ollama.py --round r3
+python scripts/probe_ollama.py --round r4
+python scripts/probe_ollama.py --round r5 --model qwen2.5:7b --reps 3
+```
+
+No cloud API keys required. Results will differ from the paper (which uses Sonnet 4.5 and GPT-5.2) but demonstrate the experimental pipeline end-to-end.
+
+### Run Experiments with Cloud APIs
+
+Each round has its own probe script for the original models:
+
+```bash
+# Requires ANTHROPIC_API_KEY and/or OPENAI_API_KEY
+python scripts/probe_r2.py          # R2 (Sonnet)
+python scripts/probe_r2_gpt52.py    # R2 (GPT-5.2)
+```
+
+See `scripts/probe_r*.py` for all rounds.
 
 ## For Artifact Evaluators
 
-### Path 1: No API keys (recommended for first pass)
+### Path 1: No API keys, no GPU (recommended for first pass)
 
-`dry_run.py` exercises all deterministic components without API calls:
+Two scripts validate the artifact offline:
 
-- **MockAPI**: product search, purchase, catalog integrity
-- **DDM determinism**: same inputs produce identical mandate hashes
-- **Resolution Policy**: fail_closed blocks violations; relax substitutes per priority (reproduces paper Table 2 values)
-- **Evaluator**: constraint compliance, silent deviation, hallucination detection
+1. **`dry_run.py`** — exercises all deterministic components:
+   - MockAPI: product search, purchase, catalog integrity
+   - DDM determinism: same inputs produce identical mandate hashes
+   - Resolution Policy: fail_closed blocks violations; relax substitutes per priority (reproduces paper Table 2 values)
+   - Evaluator: constraint compliance, silent deviation, hallucination detection
 
-This is sufficient to verify the **Functional** badge claim: DDM's structural properties work as described.
+2. **`verify_claims.py`** — replays DDM enforcement on recorded agent actions:
+   - R4: 105 Sonnet + 44 GPT-5.2 probes replayed through enforce()
+   - R5: 86 + 61 probes replayed
+   - R6: 10 + 5 probes replayed
+   - Confirms every recorded DDM decision (BLOCKED/ALLOWED) matches current code
 
-### Path 2: Full reproduction with API keys
+Together, these verify the **Functional** badge: DDM's structural properties work as described, and the recorded data is consistent with the code.
 
-To re-run experiments, execute the corresponding `scripts/probe_r*.py`. Each probe calls the LLM API and generates results in `results/`.
+### Path 2: Self-hosted model via Ollama (no cost, requires GPU)
 
-Estimated resources for full reproduction:
+`probe_ollama.py` runs the full experimental pipeline (R1–R7) against a locally hosted model:
+
+```bash
+ollama serve && ollama pull qwen2.5:7b
+python scripts/probe_ollama.py --round r3    # ~4 probes at minimum settings
+```
+
+This demonstrates the end-to-end pipeline: LLM agent → tool-use → DDM enforcement → evaluation. Results will differ numerically from the paper but the structural patterns (e.g., fallback eliminates deviation, DDM blocks violations) are observable.
+
+### Path 3: Full reproduction with cloud API keys
+
+To re-run the paper's exact experiments, execute `scripts/probe_r*.py` with API keys set.
+
+Estimated resources:
 
 | Rounds | API calls | Estimated time | Estimated cost |
 |--------|-----------|----------------|----------------|
@@ -147,15 +187,15 @@ All experimental results are included in `results/`. Each `probe_r*_results.json
 
 ## Paper Reproduction Map
 
-| Paper claim | Paper location | Probe script(s) | Pre-computed result(s) |
+| Paper claim | Paper location | Verification | Pre-computed result(s) |
 |---|---|---|---|
-| R1: 1/108 deviation (strict baseline) | §6.2, Table 3 | `probe_r1.py`, `probe_r1_control.py` | `probe_r1_results.json`, `probe_r1_control_results.json` |
-| R2: stochastic resolution (23/39/38) | §6.2 | `probe_r2.py`, `probe_r2_gpt52.py` | `probe_r2_results.json`, `probe_r2_gpt52_results.json` |
-| R3: 76%→0% deviation | §6.2 | `probe_r3.py` | `probe_r3_results.json` |
-| R4: VPR=100%, FRR=0% | §6.4 | `probe_r4_ddm_posthoc.py`, `probe_r4_gpt52_posthoc.py` | `probe_r4_results.json`, `probe_r4_gpt52_results.json` |
-| R5: B=100% vs E=0% (2×2 prompt×DDM) | §6.3, Table 5 | `probe_r5_nonbypass.py`, `probe_r5_gpt52_nonbypass.py` | `probe_r5_results.json`, `probe_r5_gpt52_results.json` |
-| R6: C=37% vs B=0% (2×2 injection×DDM) | §6.3, Table 6 | `probe_r6_injection.py`, `probe_r6_gpt52_injection.py` | `probe_r6_results.json`, `probe_r6_gpt52_results.json` |
-| R7: behavioral relax ≠ structural relax | §6.4, Tables 7–8 | `probe_r7_behavioral_resolution.py` | `probe_r7_results.json` |
+| R1: 1/108 deviation (strict baseline) | §6.2, Table 3 | `probe_r1.py` / `probe_ollama.py --round r1` | `probe_r1_results.json`, `probe_r1_control_results.json` |
+| R2: stochastic resolution (23/39/38) | §6.2 | `probe_r2.py` / `probe_ollama.py --round r2` | `probe_r2_results.json`, `probe_r2_gpt52_results.json` |
+| R3: 76%→0% deviation | §6.2 | `probe_r3.py` / `probe_ollama.py --round r3` | `probe_r3_results.json` |
+| R4: VPR=100%, FRR=0% | §6.4 | `verify_claims.py` / `probe_ollama.py --round r4` | `probe_r4_results.json`, `probe_r4_gpt52_results.json` |
+| R5: B=100% vs E=0% (2×2 prompt×DDM) | §6.3, Table 5 | `verify_claims.py` / `probe_ollama.py --round r5` | `probe_r5_results.json`, `probe_r5_gpt52_results.json` |
+| R6: C=37% vs B=0% (2×2 injection×DDM) | §6.3, Table 6 | `verify_claims.py` / `probe_ollama.py --round r6` | `probe_r6_results.json`, `probe_r6_gpt52_results.json` |
+| R7: behavioral relax ≠ structural relax | §6.4, Tables 7–8 | `probe_ollama.py --round r7` | `probe_r7_results.json` |
 | Table 2: Resolution Policy outcomes | §4 | `dry_run.py` (test_resolution_policy) | Verified at runtime |
 | DDM latency (gen ~0.005ms, enf ~0.001ms) | §5 | `dry_run.py`, `probe_r4_ddm_posthoc.py` | `probe_r4_results.json` (enforcement_latency_ms) |
 
