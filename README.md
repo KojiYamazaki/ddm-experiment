@@ -115,7 +115,7 @@ Verifies all paper claims: re-derives numerical values (R1–R3, R7) from record
 ```bash
 # Install and start Ollama (https://ollama.com)
 ollama serve
-ollama pull qwen2.5:7b
+ollama pull qwen3:8b
 
 # Run any round (R1–R7)
 python scripts/probe_ollama.py --round r3
@@ -128,7 +128,7 @@ Arguments:
 | Argument | Default | Description |
 |----------|---------|-------------|
 | `--round` | (required) | Experimental round: `r1` through `r7` |
-| `--model` | `qwen2.5:7b` | Ollama model name. Must support tool use (function calling). We recommend `qwen2.5:7b` based on testing; smaller models (e.g., llama3.2 3B) tend to exhibit task-incapacity similar to Haiku. |
+| `--model` | `qwen3:8b` | Ollama model name. Must support tool use (function calling). We recommend `qwen3:8b` based on testing; newer models (qwen3.5, gemma4) and smaller models (llama3.2 3B) tend to exhibit task-incapacity (no purchases attempted). |
 | `--reps` | `2` | Repetitions per condition |
 | `--temps` | `0.0 0.5 1.0` | Temperature settings (space-separated) |
 | `--base-url` | `http://localhost:11434/v1` | Ollama API endpoint. Also works with any OpenAI-compatible server (e.g., vLLM). |

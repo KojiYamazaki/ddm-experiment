@@ -8,7 +8,7 @@ No cloud API keys required.
 Prerequisites:
     1. Install Ollama: https://ollama.com
     2. Pull a function-calling capable model:
-       ollama pull qwen2.5:7b
+       ollama pull qwen3:8b
     3. Ollama serves at http://localhost:11434 by default
 
 Usage:
@@ -16,7 +16,7 @@ Usage:
     python scripts/probe_ollama.py --round r3
 
     # Run R2 (stochastic resolution) with specific model
-    python scripts/probe_ollama.py --round r2 --model qwen2.5:7b
+    python scripts/probe_ollama.py --round r2 --model qwen3:8b
 
     # Run with custom endpoint
     python scripts/probe_ollama.py --round r3 --base-url http://myserver:11434/v1
@@ -56,7 +56,7 @@ from scripts.probe_utils import (
 )
 
 DEFAULT_BASE_URL = "http://localhost:11434/v1"
-DEFAULT_MODEL = "qwen2.5:7b"
+DEFAULT_MODEL = "qwen3:8b"
 TEMPERATURES = [0.0, 0.5, 1.0]
 DEFAULT_REPS = 2
 
