@@ -1,24 +1,19 @@
 #!/usr/bin/env python3
-"""Verify DDM enforcement by replaying recorded agent actions.
+"""Verify paper claims from pre-computed results.
 
-Reads pre-computed results from results/probe_*.json, extracts the agent's
-purchase decisions, re-runs them through the current DDM enforce() code,
-and confirms the enforcement outcomes match the recorded results.
+Two categories of verification:
 
-This proves that the DDM code produces the same decisions on the same inputs,
-independent of when or where it runs. No API keys required.
+1. NUMERICAL CLAIMS (R1–R3, R7): aggregates recorded agent outcomes from
+   results/ and confirms the counts match the paper's reported values.
 
-Coverage:
-    R4, R5, R6 — these rounds include DDM enforcement in the experimental
-    design, so the recorded data contains both the agent's purchase and DDM's
-    enforcement decision (ddm_allowed). This script replays the agent's
-    purchase through enforce() and confirms the decision matches.
+2. DDM ENFORCEMENT REPLAY (R4–R6): extracts recorded agent purchases,
+   re-runs them through the current DDM enforce() code, and confirms
+   enforcement outcomes match the recorded decisions.
 
-    R1, R2, R3, R7 — these rounds observe agent behavior WITHOUT DDM
-    enforcement. The recorded data is the agent's LLM-driven action, which
-    can only be reproduced by re-invoking the LLM (see probe_r*.py or
-    probe_ollama.py). There is no DDM decision to replay, so these rounds
-    are not covered here.
+Together, these prove that (a) the data supports the paper's numbers, and
+(b) the DDM code produces the same decisions on the same inputs.
+
+No API keys required. Runs in ~1 second.
 
 Usage:
     python scripts/verify_claims.py
@@ -70,6 +65,104 @@ def parse_purchased_item(purchased_str):
         }
     return None
 
+
+# ======================================================================
+# PART 1: Numerical claim verification (R1, R2, R3, R7)
+# ======================================================================
+
+def verify_r1():
+    """R1: 1/108 deviation (Sonnet only, §6.2)"""
+    r1 = load("probe_r1_results.json")
+    sonnet_r1 = [p for p in r1 if p.get("model") == "Sonnet 4.5"]
+    r1_dev = sum(
+        1 for p in sonnet_r1
+        if p.get("purchase_succeeded") and p.get("violations")
+        and not any("NO_PURCHASE" in v for v in p.get("violations", []))
+    )
+
+    r1c = load("probe_r1_control_results.json")
+    sonnet_r1c = [p for p in r1c if p.get("model") == "Sonnet 4.5"]
+    r1c_dev = sum(1 for p in sonnet_r1c if p.get("result") == "DEVIATION")
+
+    total_dev = r1_dev + r1c_dev
+    total_n = len(sonnet_r1) + len(sonnet_r1c)
+
+    return [("R1: deviation count (§6.2)", "1/108", f"{total_dev}/{total_n}",
+             total_dev == 1 and total_n == 108)]
+
+
+def verify_r2():
+    """R2: Sonnet T-brand-near-miss breakdown + GPT-5.2 rate (§6.2)"""
+    r2 = load("probe_r2_results.json")
+    probes = [p for p in r2 if p.get("model") == "Sonnet" and p.get("scenario") == "T-brand-near-miss"]
+
+    budget = sum(1 for p in probes if p.get("outcome") == "DEVIATION"
+                 and any("BUDGET" in v for v in p.get("violations", [])))
+    brand = sum(1 for p in probes if p.get("outcome") == "DEVIATION"
+                and any("BRAND" in v for v in p.get("violations", [])))
+    nop = sum(1 for p in probes if p.get("outcome") == "NO_PURCHASE")
+
+    # GPT-5.2
+    r2g = load("probe_r2_gpt52_results.json")
+    gpt_bnm = [p for p in r2g if p.get("scenario") == "T-brand-near-miss"]
+    gpt_dev = sum(1 for p in gpt_bnm if p.get("outcome") == "DEVIATION")
+    gpt_total = len(gpt_bnm)
+    gpt_pct = round(gpt_dev / gpt_total * 100) if gpt_total else -1
+
+    return [
+        ("R2: Sonnet budget violations (§6.2)", 23, budget, budget == 23),
+        ("R2: Sonnet brand violations (§6.2)", 39, brand, brand == 39),
+        ("R2: Sonnet NO_PURCHASE (§6.2)", 38, nop, nop == 38),
+        ("R2: GPT-5.2 deviation rate (§6.2)", "13%", f"{gpt_pct}%", gpt_pct == 13),
+    ]
+
+
+def verify_r3():
+    """R3: bare=76%, with_fallback=0% (Sonnet, §6.2)"""
+    r3 = load("probe_r3_results.json")
+    sonnet = [p for p in r3 if p.get("model") == "Sonnet"]
+
+    results = []
+    for variant, expected in [("bare", 76), ("with_fallback", 0)]:
+        probes = [p for p in sonnet if p.get("variant") == variant]
+        dev = sum(1 for p in probes if p.get("outcome") == "DEVIATION")
+        total = len(probes)
+        pct = round(dev / total * 100) if total else -1
+        results.append((f"R3: Sonnet {variant} deviation (§6.2)",
+                        f"{expected}%", f"{pct}%", pct == expected))
+
+    return results
+
+
+def verify_r7_claims():
+    """R7: B=100% budget_first, C=100% brand_first (Sonnet, §6.4)"""
+    r7 = load("probe_r7_results.json")
+    probes = r7["probe_results"]
+    subset = [p for p in probes if p.get("model") == "Sonnet"
+              and p.get("scenario") == "T-brand-near-miss"]
+
+    results = []
+
+    b_probes = [p for p in subset if p.get("condition") == "B_resolution"]
+    b_budget = sum(1 for p in b_probes if p.get("resolution") == "budget_first")
+    b_total = len(b_probes)
+    b_pct = round(b_budget / b_total * 100) if b_total else -1
+    results.append(("R7: B_resolution budget_first (§6.4)",
+                    "100%", f"{b_pct}%", b_pct == 100))
+
+    c_probes = [p for p in subset if p.get("condition") == "C_override"]
+    c_brand = sum(1 for p in c_probes if p.get("resolution") == "brand_first")
+    c_total = len(c_probes)
+    c_pct = round(c_brand / c_total * 100) if c_total else -1
+    results.append(("R7: C_override brand_first (§6.4)",
+                    "100%", f"{c_pct}%", c_pct == 100))
+
+    return results
+
+
+# ======================================================================
+# PART 2: DDM enforcement replay (R4, R5, R6)
+# ======================================================================
 
 def purchased_label(purchased_list):
     """Format purchased items for display."""
@@ -196,42 +289,74 @@ def verify_r6():
     return all_lines, summaries
 
 
+# ======================================================================
+# Main
+# ======================================================================
+
 def main():
-    print("=" * 120)
-    print("DDM ENFORCEMENT VERIFICATION")
-    print("Replaying recorded agent actions through current DDM enforce()")
-    print("=" * 120)
+    print("=" * 100)
+    print("PAPER CLAIM VERIFICATION")
+    print("=" * 100)
+
+    # --- Part 1: Numerical claims ---
+    print()
+    print("PART 1: Numerical claims from recorded outcomes")
+    print("-" * 100)
+
+    claim_results = []
+    for fn in [verify_r1, verify_r2, verify_r3, verify_r7_claims]:
+        claim_results.extend(fn())
+
+    print(f"  {'Claim':<50} {'Paper':>10} {'Data':>10} {'Status':>8}")
+    print(f"  {'-'*50} {'-'*10} {'-'*10} {'-'*8}")
+    for label, expected, actual, passed in claim_results:
+        status = "✓ PASS" if passed else "✗ FAIL"
+        print(f"  {label:<50} {str(expected):>10} {str(actual):>10} {status:>8}")
+
+    # --- Part 2: DDM enforcement replay ---
+    print()
+    print("PART 2: DDM enforcement replay (re-running enforce() on recorded purchases)")
+    print("-" * 100)
 
     all_lines = []
-    all_summaries = []
+    replay_summaries = []
 
     for fn in [verify_r4, verify_r5, verify_r6]:
         lines, summaries = fn()
         all_lines.extend(lines)
-        all_summaries.extend(summaries)
+        replay_summaries.extend(summaries)
 
-    # Print per-probe detail
-    print()
     for line in all_lines:
         print(line)
 
-    # Print summary
-    total_replayed = sum(s[1] for s in all_summaries)
-    total_matched = sum(s[2] for s in all_summaries)
-    all_pass = total_matched == total_replayed
-
+    # --- Summary ---
     print()
-    print("=" * 120)
+    print("=" * 100)
     print("SUMMARY")
-    print("-" * 120)
-    print(f"  {'Round':<20} {'Replayed':>10} {'Matched':>10} {'Status':>10}")
+    print("-" * 100)
+
+    claims_pass = all(p for _, _, _, p in claim_results)
+    total_replayed = sum(s[1] for s in replay_summaries)
+    total_matched = sum(s[2] for s in replay_summaries)
+    replay_pass = total_matched == total_replayed
+
+    print(f"  Numerical claims:    {sum(1 for _,_,_,p in claim_results if p)}/{len(claim_results)} passed")
+    print(f"  DDM enforcement:     {total_matched}/{total_replayed} probes matched")
+    print()
+
+    print(f"  {'Round':<20} {'Checked':>10} {'Passed':>10} {'Status':>10}")
     print(f"  {'-'*20} {'-'*10} {'-'*10} {'-'*10}")
-    for label, replayed, matched in all_summaries:
+    print(f"  {'Claims (R1-R3,R7)':<20} {len(claim_results):>10} {sum(1 for _,_,_,p in claim_results if p):>10} {'✓ PASS' if claims_pass else '✗ FAIL':>10}")
+    for label, replayed, matched in replay_summaries:
         status = "✓ PASS" if matched == replayed else "✗ FAIL"
         print(f"  {label:<20} {replayed:>10} {matched:>10} {status:>10}")
     print(f"  {'-'*20} {'-'*10} {'-'*10} {'-'*10}")
-    print(f"  {'TOTAL':<20} {total_replayed:>10} {total_matched:>10} {'✓ ALL PASS' if all_pass else '✗ FAILED':>10}")
-    print("=" * 120)
+
+    all_pass = claims_pass and replay_pass
+    total_checks = len(claim_results) + total_replayed
+    total_passed = sum(1 for _, _, _, p in claim_results if p) + total_matched
+    print(f"  {'TOTAL':<20} {total_checks:>10} {total_passed:>10} {'✓ ALL PASS' if all_pass else '✗ FAILED':>10}")
+    print("=" * 100)
 
     sys.exit(0 if all_pass else 1)
 

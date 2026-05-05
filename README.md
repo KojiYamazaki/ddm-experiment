@@ -108,7 +108,7 @@ This validates core logic (Mock API, DDM, Evaluator, Resolution Policy) without 
 python scripts/verify_claims.py
 ```
 
-Replays DDM enforcement on all recorded agent actions from `results/` and confirms the enforcement outcomes match. No API calls needed.
+Verifies all paper claims: re-derives numerical values (R1–R3, R7) from recorded outcomes, and replays DDM enforcement (R4–R6) on 311 recorded agent purchases. No API calls needed.
 
 ### Run Experiments with Self-Hosted Model (Ollama)
 
@@ -120,10 +120,20 @@ ollama pull qwen2.5:7b
 # Run any round (R1–R7)
 python scripts/probe_ollama.py --round r3
 python scripts/probe_ollama.py --round r4
-python scripts/probe_ollama.py --round r5 --model qwen2.5:7b --reps 3
+python scripts/probe_ollama.py --round r5 --reps 3
 ```
 
-No cloud API keys required. Results will differ from the paper (which uses Sonnet 4.5 and GPT-5.2) but demonstrate the experimental pipeline end-to-end.
+Arguments:
+
+| Argument | Default | Description |
+|----------|---------|-------------|
+| `--round` | (required) | Experimental round: `r1` through `r7` |
+| `--model` | `qwen2.5:7b` | Ollama model name. Must support tool use (function calling). We recommend `qwen2.5:7b` based on testing; smaller models (e.g., llama3.2 3B) tend to exhibit task-incapacity similar to Haiku. |
+| `--reps` | `2` | Repetitions per condition |
+| `--temps` | `0.0 0.5 1.0` | Temperature settings (space-separated) |
+| `--base-url` | `http://localhost:11434/v1` | Ollama API endpoint. Also works with any OpenAI-compatible server (e.g., vLLM). |
+
+No cloud API keys required. Results will differ from the paper (which uses Sonnet 4.5 and GPT-5.2) but the structural patterns (e.g., fallback eliminates deviation, DDM blocks violations) are observable with capable models.
 
 ### Run Experiments with Cloud APIs
 
@@ -139,51 +149,19 @@ See `scripts/probe_r*.py` for all rounds.
 
 ## For Artifact Evaluators
 
-### Path 1: No API keys, no GPU (recommended for first pass)
+The commands above (Quick Start) are the evaluation paths. Summary of what each covers:
 
-Two scripts validate the artifact offline:
+| Badge | Verification | Command | Requirements |
+|-------|-------------|---------|--------------|
+| Functional | DDM code works as described | `python scripts/dry_run.py` | None |
+| Reproduced | Paper claims match data | `python scripts/verify_claims.py` | None |
+| Reproduced | End-to-end pipeline observable | `python scripts/probe_ollama.py --round r3` | Ollama + GPU |
 
-1. **`dry_run.py`** — exercises all deterministic components:
-   - MockAPI: product search, purchase, catalog integrity
-   - DDM determinism: same inputs produce identical mandate hashes
-   - Resolution Policy: fail_closed blocks violations; relax substitutes per priority (reproduces paper Table 2 values)
-   - Evaluator: constraint compliance, silent deviation, hallucination detection
+`dry_run.py` + `verify_claims.py` together require no API keys, no GPU, and run in ~1 second. They confirm DDM's structural properties and that all 320 recorded data points (9 numerical claims + 311 enforcement decisions) are consistent with the paper.
 
-2. **`verify_claims.py`** — replays DDM enforcement on recorded agent actions:
-   - R4: 105 Sonnet + 44 GPT-5.2 probes replayed through enforce()
-   - R5: 86 + 61 probes replayed
-   - R6: 10 + 5 probes replayed
-   - Confirms every recorded DDM decision (BLOCKED/ALLOWED) matches current code
+For full reproduction with the paper's original models (Sonnet 4.5, GPT-5.2), see "Run Experiments with Cloud APIs" above. Estimated total cost: ~$15–25, ~90 minutes.
 
-Together, these verify the **Functional** badge: DDM's structural properties work as described, and the recorded data is consistent with the code.
-
-### Path 2: Self-hosted model via Ollama (no cost, requires GPU)
-
-`probe_ollama.py` runs the full experimental pipeline (R1–R7) against a locally hosted model:
-
-```bash
-ollama serve && ollama pull qwen2.5:7b
-python scripts/probe_ollama.py --round r3    # ~4 probes at minimum settings
-```
-
-This demonstrates the end-to-end pipeline: LLM agent → tool-use → DDM enforcement → evaluation. Results will differ numerically from the paper but the structural patterns (e.g., fallback eliminates deviation, DDM blocks violations) are observable.
-
-### Path 3: Full reproduction with cloud API keys
-
-To re-run the paper's exact experiments, execute `scripts/probe_r*.py` with API keys set.
-
-Estimated resources:
-
-| Rounds | API calls | Estimated time | Estimated cost |
-|--------|-----------|----------------|----------------|
-| R1–R3 (baseline) | ~1,000 | 30–60 min | ~$5–10 |
-| R4 (DDM post-hoc) | 0 (reuses R2) | < 1 min | $0 |
-| R5–R6 (2×2 factorial) | ~740 | 30–60 min | ~$5–10 |
-| R7 (behavioral resolution) | ~200 | 15–30 min | ~$3–5 |
-
-### Pre-computed results
-
-All experimental results are included in `results/`. Each `probe_r*_results.json` contains complete probe data for that round, including agent responses, DDM enforcement decisions, and evaluation outcomes.
+All experimental results are pre-computed in `results/`. Each `probe_r*_results.json` contains complete probe data for that round.
 
 ## Paper Reproduction Map
 
