@@ -148,7 +148,10 @@ def main():
     total_err = sum(1 for r in all_results if r.get("outcome") == "ERROR")
     print(f"\nOverall: {len(all_results)} probes | {total_dev} deviations | {total_comp} compliant | {total_nop} no-purchase | {total_err} errors")
 
-    output_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results", "probe_r2_gpt52_results.json")
+    from datetime import datetime
+    results_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results")
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    output_path = os.path.join(results_dir, f"probe_r2_gpt52_results_{ts}.json")
     with open(output_path, "w") as f:
         json.dump(all_results, f, indent=2, ensure_ascii=False)
     print(f"Saved: {output_path}")

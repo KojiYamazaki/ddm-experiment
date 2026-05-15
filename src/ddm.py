@@ -372,11 +372,11 @@ class DDM:
         for constraint_name in reversed(priority_order):
             if constraint_name not in current_constraints:
                 continue
-            relaxed.append(constraint_name)
             del current_constraints[constraint_name]
 
             candidates = self._find_satisfying(catalog, current_constraints)
             if candidates:
+                relaxed.append(constraint_name)
                 best = min(candidates, key=lambda p: p["price"])
                 return {"action": "substitute", "selected_item": best, "relaxed_constraints": relaxed}
 

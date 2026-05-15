@@ -205,7 +205,7 @@ def evaluate_basic(constraints, result, catalog):
 
 def main():
     total = len(SCENARIOS) * len(CONDITIONS) * len(TEMPERATURES) * REPS
-    print(f"__PH_R2__ Non-Bypassability Test: {len(SCENARIOS)} scenarios × {len(CONDITIONS)} conditions × {len(TEMPERATURES)} temps × {REPS} reps = {total} probes")
+    print(f"R5 Non-Bypassability Test: {len(SCENARIOS)} scenarios × {len(CONDITIONS)} conditions × {len(TEMPERATURES)} temps × {REPS} reps = {total} probes")
     print(f"Model: {MODEL_NAME} ({MODEL_ID})")
     print()
 
@@ -296,7 +296,7 @@ def main():
 
     # === Summary ===
     print(f"\n{'='*80}")
-    print("__PH_R2__ NON-BYPASSABILITY RESULTS")
+    print("R5 NON-BYPASSABILITY RESULTS")
     print(f"{'='*80}")
 
     for scenario in SCENARIOS:
@@ -371,7 +371,10 @@ def main():
     total_comp = sum(1 for r in all_results if r.get("effective_outcome") == "COMPLIANT")
     print(f"\nOverall: {total_probes} probes | {total_dev} deviations | {total_blocked} DDM-blocked | {total_comp} compliant | {total_nop} no-purchase")
 
-    output_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results", "probe___ph_r2___results.json")
+    from datetime import datetime
+    results_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results")
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    output_path = os.path.join(results_dir, f"probe_r5_results_{ts}.json")
     with open(output_path, "w") as f:
         json.dump(all_results, f, indent=2, ensure_ascii=False)
     print(f"Saved: {output_path}")

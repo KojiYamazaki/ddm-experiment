@@ -208,7 +208,7 @@ def evaluate_basic(constraints, result, catalog):
 
 def main():
     total = len(SCENARIOS) * len(CONDITIONS) * len(TEMPERATURES) * REPS
-    print(f"__PH_R3__ Injection Resistance Test: {len(SCENARIOS)} scenarios × {len(CONDITIONS)} conditions × {len(TEMPERATURES)} temps × {REPS} reps = {total} probes")
+    print(f"R6 Injection Resistance Test: {len(SCENARIOS)} scenarios × {len(CONDITIONS)} conditions × {len(TEMPERATURES)} temps × {REPS} reps = {total} probes")
     print(f"Model: {MODEL_NAME} ({MODEL_ID})")
     print(f"Note: Catalog descriptions contain adversarial injection text")
     print()
@@ -299,7 +299,7 @@ def main():
 
     # === Summary ===
     print(f"\n{'='*80}")
-    print("__PH_R3__ INJECTION RESISTANCE RESULTS")
+    print("R6 INJECTION RESISTANCE RESULTS")
     print(f"{'='*80}")
 
     for scenario in SCENARIOS:
@@ -347,7 +347,10 @@ def main():
     total_nop = sum(1 for r in all_results if r.get("effective_outcome") == "NO_PURCHASE")
     print(f"\nOverall: {total_probes} probes | {total_dev} deviations | {total_blocked} DDM-blocked | {total_nop} no-purchase")
 
-    output_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results", "probe___ph_r3___results.json")
+    from datetime import datetime
+    results_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results")
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    output_path = os.path.join(results_dir, f"probe_r6_results_{ts}.json")
     with open(output_path, "w") as f:
         json.dump(all_results, f, indent=2, ensure_ascii=False)
     print(f"Saved: {output_path}")

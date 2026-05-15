@@ -92,9 +92,11 @@ def main():
     # Load R2 results
     r2_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results", "probe_r2_results.json")
     with open(r2_path) as f:
-        r2_results = json.load(f)
+        r2_all = json.load(f)
 
-    print(f"Loaded {len(r2_results)} R2 probes")
+    # Filter to Sonnet only (Haiku excluded from paper analysis, §6.1)
+    r2_results = [p for p in r2_all if p.get("model") == "Sonnet"]
+    print(f"Loaded {len(r2_results)} Sonnet probes from {len(r2_all)} total R2 probes")
     print()
 
     all_results = []
@@ -214,7 +216,7 @@ def main():
 
     # === Summary ===
     print(f"\n{'='*60}")
-    print("__PH_R1__ DDM POST-HOC ENFORCEMENT RESULTS")
+    print("R4 DDM POST-HOC ENFORCEMENT RESULTS")
     print(f"{'='*60}")
 
     total_with_purchase = true_positive + false_negative + true_negative + false_positive
@@ -296,14 +298,16 @@ def main():
             "vpr": vpr,
             "frr": frr,
             "reproducibility_rate": repro_rate,
-            "gen_latency_mean_ms": sum(gen_latencies) / len(gen_latencies) if gen_latencies else None,
             "enf_latency_mean_ms": sum(enf_latencies) / len(enf_latencies) if enf_latencies else None,
         },
         "reproducibility": repro_results,
         "probes": all_results,
     }
 
-    output_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results", "probe___ph_r1___results.json")
+    from datetime import datetime
+    results_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results")
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    output_path = os.path.join(results_dir, f"probe_r4_results_{ts}.json")
     with open(output_path, "w") as f:
         json.dump(output, f, indent=2, ensure_ascii=False)
     print(f"\nSaved: {output_path}")

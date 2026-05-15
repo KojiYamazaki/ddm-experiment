@@ -3,6 +3,32 @@
 See [README.md](README.md) for setup, reproduction paths, and the
 paper reproduction map.
 
+## Design note on product catalogs
+
+The artifact contains two catalog sources. `data/catalog.json` (12 items)
+is used by `dry_run.py` and `src/mock_api.py` for unit testing. The probe
+scripts (R1–R7) each define an inline `EXTENDED_CATALOG` (13–21 items)
+that includes additional products needed to create the constraint conflicts
+studied in the paper (e.g., CAM-009 Panasonic at $310 for the T-brand-near-miss
+scenario). The shared `EXTENDED_CATALOG` in `scripts/probe_utils.py` (13 items)
+is the canonical catalog for R2–R7. R1 uses a larger variant (21 items) with
+additional category-confusion products specific to its probe design.
+
+## Note on stale values in results/probe_r7_results.json
+
+The `ddm_canonical` block in `probe_r7_results.json` contains two known
+stale values from an earlier code version:
+
+- `selected_item_price: 21000` and `22000` (cent-denominated) instead of
+  `210` and `220` (USD). The selected product IDs are correct.
+- `relaxed: ["category", "brand_whitelist"]` includes `category`, which
+  the current `_resolve` implementation no longer adds (category removal
+  does not expand the candidate set for these scenarios). The selected
+  products and resolution outcomes are unaffected.
+
+These values are artifacts of the code version that generated the results.
+The current code produces correct values if the R7 post-hoc step is re-run.
+
 ## Design note on constraint checking
 
 DDM's constraint-checking logic is factored into a declarative rule table

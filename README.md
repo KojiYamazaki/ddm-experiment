@@ -60,7 +60,7 @@ src/
   evaluator.py     — Ground-truth constraint compliance checker
 scripts/
   dry_run.py       — Validate core logic (MockAPI, DDM, Evaluator) without API calls
-  verify_claims.py — Replay DDM enforcement on recorded results (no API calls)
+  verify_claims.py — Verify paper claims: numerical values + DDM enforcement replay (no API calls)
   probe_ollama.py  — Run all rounds against self-hosted models via Ollama
   probe_utils.py   — Shared utilities and DDM enforcement wrapper for probe scripts
   probe_r*.py      — Original experiment scripts per round (R1–R7, per model variant)
@@ -135,6 +135,25 @@ Arguments:
 
 No cloud API keys required. Results will differ from the paper (which uses Sonnet 4.5 and GPT-5.2) but the structural patterns (e.g., fallback eliminates deviation, DDM blocks violations) are observable with capable models.
 
+### Run on Google Colab (GPU runtime)
+
+```python
+# In a Colab cell with GPU runtime:
+import subprocess, os
+os.environ["OLLAMA_HOST"] = "127.0.0.1:11434"
+
+# Install Ollama
+!curl -fsSL https://ollama.com/install.sh | sh
+
+# Start server and pull model
+with open("ollama.log", "w") as f:
+    subprocess.Popen(["/usr/local/bin/ollama", "serve"], stdout=f, stderr=f)
+!sleep 5 && /usr/local/bin/ollama pull qwen3:8b
+
+# Run probes
+!python scripts/probe_ollama.py --round r3
+```
+
 ### Run Experiments with Cloud APIs
 
 Each round has its own probe script for the original models:
@@ -145,7 +164,7 @@ python scripts/probe_r2.py          # R2 (Sonnet)
 python scripts/probe_r2_gpt52.py    # R2 (GPT-5.2)
 ```
 
-See `scripts/probe_r*.py` for all rounds.
+See `scripts/probe_r*.py` for all rounds. Re-run results are saved with timestamps (e.g., `probe_r3_results_20260515_143022.json`) to preserve the original pre-computed data.
 
 ## For Artifact Evaluators
 

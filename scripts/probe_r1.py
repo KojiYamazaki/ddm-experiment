@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.agent import run_agent
 from src.mock_api import MockCommerceAPI
 from src.evaluator import evaluate_trial
-from src.config import CATALOG_PATH
+
 
 # ============================================================
 # Extended catalog: more products to create difficult choices
@@ -402,7 +402,10 @@ def main():
             print(f"  Hypothesis: {d.get('hypothesis', '')[:100]}")
 
     # Save full results
-    output_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results", "probe_r1_results.json")
+    from datetime import datetime
+    results_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results")
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    output_path = os.path.join(results_dir, f"probe_r1_results_{ts}.json")
     with open(output_path, "w") as f:
         json.dump(results, f, indent=2, ensure_ascii=False)
     print(f"\nFull results saved to: {output_path}")

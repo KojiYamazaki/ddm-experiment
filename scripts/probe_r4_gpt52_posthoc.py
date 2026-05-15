@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Probe __PH_R1__-GPT: DDM post-hoc enforcement on GPT-5.2 R2 results.
+"""Probe R4-GPT: DDM post-hoc enforcement on GPT-5.2 R2 results.
 
-Same as __PH_R1__ but applied to GPT-5.2 R2 data. Zero API cost.
+Same as R4 but applied to GPT-5.2 R2 data. Zero API cost.
 """
 
 import json
@@ -147,7 +147,7 @@ def main():
     repro_rate = sum(1 for r in repro_results.values() if r["all_match"]) / len(repro_results)
 
     print(f"\n{'='*60}")
-    print(f"__PH_R1__-GPT DDM POST-HOC RESULTS (GPT-5.2)")
+    print(f"R4-GPT DDM POST-HOC RESULTS (GPT-5.2)")
     print(f"{'='*60}")
     print(f"\n  Total probes:  {len(r2_results)}")
     print(f"  With purchase: {total_with_purchase}")
@@ -172,7 +172,10 @@ def main():
         "probes": all_results,
     }
 
-    output_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results", "probe___ph_r1___gpt52_results.json")
+    from datetime import datetime
+    results_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results")
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    output_path = os.path.join(results_dir, f"probe_r4_gpt52_results_{ts}.json")
     with open(output_path, "w") as f:
         json.dump(output, f, indent=2, ensure_ascii=False)
     print(f"\nSaved: {output_path}")
