@@ -135,22 +135,30 @@ Arguments:
 
 No cloud API keys required. Results will differ from the paper (which uses Sonnet 4.5 and GPT-5.2) but the structural patterns (e.g., fallback eliminates deviation, DDM blocks violations) are observable with capable models.
 
-### Run on Google Colab (GPU runtime)
+### Run on Google Colab
+
+First switch to a GPU runtime (Runtime → Change runtime type → T4 or A100), then run all cells in order. Switching runtime later resets the environment.
 
 ```python
-# In a Colab cell with GPU runtime:
+# Cell 1: Clone repo and install
+!git clone https://github.com/KojiYamazaki/ddm-experiment.git
+%cd ddm-experiment
+!pip install -r requirements.txt
+
+# Cell 2: Offline verification (no GPU needed, but run here to avoid re-setup)
+!python scripts/dry_run.py
+!python scripts/verify_claims.py
+
+# Cell 3: Install and start Ollama
 import subprocess, os
 os.environ["OLLAMA_HOST"] = "127.0.0.1:11434"
-
-# Install Ollama
+!sudo apt-get update -qq && sudo apt-get install -y -qq zstd
 !curl -fsSL https://ollama.com/install.sh | sh
-
-# Start server and pull model
 with open("ollama.log", "w") as f:
     subprocess.Popen(["/usr/local/bin/ollama", "serve"], stdout=f, stderr=f)
 !sleep 5 && /usr/local/bin/ollama pull qwen3:8b
 
-# Run probes
+# Cell 4: Run probes
 !python scripts/probe_ollama.py --round r3
 ```
 
